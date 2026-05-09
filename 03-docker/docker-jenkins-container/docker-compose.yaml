@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins-server
+    restart: always
+    ports:
+      - "8080:8080"   # Interfaz Web
+      - "50000:50000" # Comunicación con agentes
+    volumes:
+      - jenkins_home:/var/jenkins_home
+    environment:
+      - TZ=America/Bogota # Opcional: Ajusta tu zona horaria
+
+volumes:
+  jenkins_home:
+    external: false
