@@ -1,0 +1,21 @@
+# 1. Imagen base: Define el entorno (Node.js 18 en Alpine Linux, que es ligero)
+FROM node:18-alpine
+
+# 2. Directorio de trabajo: Crea y establece /app como el directorio activo
+WORKDIR /app
+
+# 3. Copiar dependencias: Copia archivos package.json y package-lock.json primero
+# (esto optimiza la cache de Docker, evitando reinstalar si no cambian)
+COPY package*.json ./
+
+# 4. Comando de ejecución: Instala las dependencias de Node.js
+RUN npm install
+
+# 5. Copiar código: Copia el resto del código de la aplicación al contenedor
+COPY . .
+
+# 6. Exponer puerto: Indica que la app escucha en el puerto 3000
+EXPOSE 3000
+
+# 7. Comando de inicio: Ejecuta la aplicación cuando el contenedor arranca
+CMD ["node", "app.js"]
