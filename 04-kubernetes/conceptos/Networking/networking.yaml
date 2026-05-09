@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: servicio-web
+spec:
+  # Tipos de Service: 
+  # 1. ClusterIP (Solo interno)
+  # 2. NodePort (Abre un puerto en el IP de cada Nodo)
+  # 3. LoadBalancer (Crea un balanceador en AWS/GCP/Azure)
+  type: LoadBalancer 
+  selector:
+    app: web-server # Conecta con los pods que tengan este label
+  ports:
+    - protocol: TCP
+      port: 80         # Puerto del servicio
+      targetPort: 80   # Puerto del contenedor
