@@ -1,0 +1,11 @@
+# Definición de un Namespace personalizado
+# Los Namespaces sirven para dividir un clúster físico en varios "clústeres virtuales"
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: desarrollo-local # Nombre único del Namespace (ej. desarrollo, pruebas, prod)
+  labels:
+    entorno: dev       # Etiqueta para organizar o filtrar recursos después
+    proyecto: saludo   # Útil para aplicar cuotas o políticas de red
+# Nota: La sección 'spec' con 'finalizers' y la sección 'status' se omiten 
+# porque Kubernetes las genera y gestiona automáticamente al crear el recurso.

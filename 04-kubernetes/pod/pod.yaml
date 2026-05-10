@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  namespace: desarrollo-local
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+    resources:
+      # 1. REQUESTS: Lo que el contenedor tiene "garantizado" para arrancar.
+      # Es como hacer una reserva en un restaurante.
+      requests:
+        memory: "64Mi"   # Reserva 64MB de RAM mínimos
+        cpu: "250m"      # Reserva 0.25 núcleos de CPU mínimos
+      
+      # 2. LIMITS: El techo máximo que el contenedor no puede sobrepasar.
+      # Si intenta usar más RAM de esta, Kubernetes lo detendrá (OOMKilled).
+      limits:
+        memory: "128Mi"  # No permitirá que use más de 128MB
+        cpu: "500m"      # No permitirá que use más de medio núcleo
