@@ -1,0 +1,50 @@
+apiVersion: apps/v1                                        # API para objetos de tipo ReplicaSet en Kubernetes
+kind: ReplicaSet                                           # Tipo de recurso: ReplicaSet (mantiene un número fijo de Pods)
+metadata:                                                  # Sección de metadatos (identidad del recurso)
+  name: frontend                                           # Nombre único del ReplicaSet dentro del namespace
+  labels:                                                  # Etiquetas (labels) asociadas al ReplicaSet para organización/filtros
+    app: guestbook                                         # Label: identifica la app/proyecto "guestbook"
+    tier: frontend                                         # Label: indica la capa "frontend" de la app
+spec:                                                      # Especificación del estado deseado del ReplicaSet
+  replicas: 3                                              # Número de Pods que el ReplicaSet intentará mantener activos siempre
+  selector:                                                # Selector: define qué Pods pertenecen a este ReplicaSet
+    matchLabels:                                           # Regla de selección por etiquetas exactas
+      tier: frontend                                       # El ReplicaSet "adopta" Pods que tengan label tier=frontend
+  template:                                                # Plantilla de Pod: cómo crear Pods nuevos cuando falten
+    metadata:                                              # Metadatos para cada Pod creado por este ReplicaSet
+      labels:                                              # Labels que tendrán los Pods (deben coincidir con el selector)
+        tier: frontend                                     # Label del Pod para que coincida con selector.matchLabels.tier
+        app: guestbook                                     # Label adicional recomendable para consistencia y filtrado por app
+    spec:                                                  # Especificación del Pod (contenedores, volúmenes, etc.)
+      containers:                                          # Lista de contenedores dentro del Pod
+      - name: php-redis                                    # Nombre del contenedor (identificador dentro del Pod)
+        image: gcr.io/google_samples/gb-frontend:v3        # Imagen del contenedor (repositorio + tag v3)
+        resources:                                         # Recursos: necesarios para HPA (especialmente requests.cpu)
+          requests:                                        # Requests: recursos mínimos que Kubernetes reserva para el contenedor
+            cpu: "100m"                                    # CPU solicitada: 0.1 vCPU (base para calcular % de HPA por CPU)
+            memory: "128Mi"                                # Memoria solicitada: 128Mi (reserva mínima)
+          limits:                                          # Limits: límites máximos permitidos para el contenedor
+            cpu: "500m"                                    # CPU máxima: 0.5 vCPU (límite superior)
+            memory: "256Mi"                                # Memoria máxima: 256Mi (límite superior)
+---
+apiVersion: autoscaling/v2                                 # API del HPA (v2 recomendada para métricas modernas)
+kind: HorizontalPodAutoscaler                              # Tipo de recurso: HPA (autoescalado horizontal de réplicas)
+metadata:                                                  # Metadatos del HPA (identidad del autoscaler)
+  name: frontend-hpa                                       # Nombre del HPA (único en el namespace)
+  labels:                                                  # Labels del HPA para organización/filtros
+    app: guestbook                                         # Label: asocia el HPA al proyecto "guestbook"
+    tier: frontend                                         # Label: asocia el HPA a la capa "frontend"
+spec:                                                      # Especificación del autoscalado (reglas y objetivo)
+  scaleTargetRef:                                          # Referencia al recurso que el HPA va a escalar
+    apiVersion: apps/v1                                    # API del recurso objetivo (ReplicaSet vive en apps/v1)
+    kind: ReplicaSet                                       # Tipo del recurso objetivo a escalar (ReplicaSet)
+    name: frontend                                         # Nombre exacto del ReplicaSet a escalar
+  minReplicas: 2                                           # Mínimo de réplicas permitido (nunca bajará de 2)
+  maxReplicas: 6                                           # Máximo de réplicas permitido (nunca subirá de 6)
+  metrics:                                                 # Métricas que el HPA evaluará para decidir escalar
+  - type: Resource                                         # Tipo de métrica: recurso (CPU/memoria del Pod)
+    resource:                                              # Bloque de configuración de la métrica de recurso
+      name: cpu                                            # Recurso a medir: CPU
+      target:                                              # Objetivo que se desea mantener con el autoscalado
+        type: Utilization                                  # Tipo de objetivo: porcentaje de utilización sobre requests
+        averageUtilization: 50                             # Objetivo: ~50% de uso promedio de CPU (sobre requests.cpu)

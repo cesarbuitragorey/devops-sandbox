@@ -1,0 +1,106 @@
+# ============================
+# 1️⃣ NAMESPACE
+# ============================
+
+# API básica para recursos de tipo Namespace
+apiVersion: v1
+
+# Tipo de recurso
+kind: Namespace
+
+metadata:
+  # Nombre del namespace
+  # Aísla todos los recursos del demo
+  name: demo-k8s
+
+---
+# ============================
+# 2️⃣ STATEFULSET
+# ============================
+
+# API group y versión que usaremos
+# apps/v1 es la versión estable para recursos como Deployment y StatefulSet
+apiVersion: apps/v1
+
+# Tipo de recurso
+# StatefulSet se usa cuando los Pods requieren identidad estable y storage propio
+kind: StatefulSet
+
+metadata:
+  # Nombre del StatefulSet
+  # Los Pods se llamarán: web-0, web-1, web-2
+  name: web
+
+  # Namespace donde se creará el StatefulSet
+  # Esto evita usar el namespace "default"
+  namespace: demo-k8s
+
+spec:
+  # Selector que define qué Pods pertenecerán a este StatefulSet
+  # DEBE coincidir exactamente con las etiquetas del template
+  selector:
+    matchLabels:
+      app: nginx
+
+  # Nombre del Service Headless (no ClusterIP)
+  # Kubernetes lo usa para dar DNS estable a cada Pod:
+  # web-0.nginx.demo-k8s.svc.cluster.local
+  serviceName: "nginx"
+
+  # Número de Pods a crear
+  # StatefulSet los crea en orden (uno por uno)
+  replicas: 3
+
+  # Tiempo mínimo que un Pod debe estar Ready
+  # antes de que Kubernetes cree el siguiente Pod
+  minReadySeconds: 10
+
+  # Plantilla de los Pods (similar a Deployment)
+  template:
+    metadata:
+      labels:
+        # Debe coincidir con spec.selector.matchLabels
+        app: nginx
+
+    spec:
+      # Tiempo de gracia para apagado ordenado del contenedor
+      terminationGracePeriodSeconds: 10
+
+      containers:
+      - name: nginx
+
+        # Imagen liviana (slim)
+        # Ideal para demos por bajo consumo de CPU y memoria
+        image: nginx:alpine
+
+        ports:
+        - containerPort: 80
+          name: web
+
+        volumeMounts:
+        # Se monta un volumen persistente por Pod
+        # Cada Pod tiene su propio disco
+        - name: www
+          mountPath: /usr/share/nginx/html
+
+  # Plantillas para crear PersistentVolumeClaims
+  # Kubernetes crea UN PVC por cada Pod:
+  # www-web-0, www-web-1, www-web-2
+  volumeClaimTemplates:
+  - metadata:
+      # Nombre base del volumen
+      name: www
+
+    spec:
+      # El volumen solo puede montarse en un nodo a la vez
+      accessModes:
+      - ReadWriteOnce
+
+      # StorageClass usada por el cluster
+      # En Minikube normalmente es "standard"
+      # storageClassName: "my-storage-class"
+
+      resources:
+        requests:
+          # Espacio solicitado por cada Pod
+          storage: 1Gi

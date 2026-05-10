@@ -1,0 +1,128 @@
+# ====================================================
+# 1. NAMESPACE
+# ====================================================
+apiVersion: v1                              # API básica de Kubernetes para recursos core
+kind: Namespace                             # Tipo de recurso: Namespace (aislamiento lógico)
+metadata:                                  # Metadatos del recurso
+  name: demo-k8s                            # Nombre del namespace donde vivirá todo
+---
+# ====================================================
+# 2. POD (standalone)
+# ====================================================
+apiVersion: v1                              # API core usada para Pods
+kind: Pod                                  # Tipo de recurso: Pod (unidad mínima de ejecución)
+metadata:                                  # Metadatos del Pod
+  name: nginx-pod                          # Nombre único del Pod
+  namespace: demo-k8s                      # Namespace donde se crea el Pod
+  labels:                                  # Etiquetas (labels) para identificarlo
+    app: nginx-pod                         # Label usada para filtros y selección
+spec:                                      # Especificación del Pod
+  containers:                              # Lista de contenedores dentro del Pod
+  - name: nginx                            # Nombre del contenedor
+    image: nginx:1.14.2                    # Imagen Docker que se ejecuta
+    ports:                                 # Puertos expuestos por el contenedor
+    - containerPort: 80                    # Puerto interno del contenedor
+---
+# ====================================================
+# 3. REPLICASET
+# ====================================================
+apiVersion: apps/v1                        # API para recursos de workloads (apps)
+kind: ReplicaSet                           # Tipo: ReplicaSet (controla número de Pods)
+metadata:                                  # Metadatos del ReplicaSet
+  name: nginx-rs                           # Nombre del ReplicaSet
+  namespace: demo-k8s                      # Namespace donde se crea
+  labels:                                  # Labels del ReplicaSet
+    app: nginx-rs                          # Identifica este ReplicaSet
+spec:                                      # Especificación del ReplicaSet
+  replicas: 2                              # Número deseado de Pods activos
+  selector:                                # Selector que define qué Pods controla
+    matchLabels:                           # Coincidencia exacta de labels
+      app: nginx-rs                        # Label que deben tener los Pods
+  template:                                # Plantilla usada para crear los Pods
+    metadata:                              # Metadatos del Pod creado
+      labels:                              # Labels del Pod (deben coincidir con selector)
+        app: nginx-rs
+    spec:                                  # Especificación del Pod
+      containers:                          # Contenedores del Pod
+      - name: nginx                        # Nombre del contenedor
+        image: nginx:1.14.2                # Imagen Docker
+        ports:                             # Puertos expuestos
+        - containerPort: 80
+        resources:                         # Recursos asignados al contenedor
+          requests:                        # Recursos mínimos garantizados
+            cpu: "100m"                    # 0.1 CPU reservado
+            memory: "64Mi"                 # 64 MiB de memoria reservada
+---
+# ====================================================
+# 4. DEPLOYMENT  (MODIFICADO: + load-generator)
+# ====================================================
+apiVersion: apps/v1                        # API de Deployment
+kind: Deployment                           # Tipo: Deployment (gestiona ReplicaSets)
+metadata:                                  # Metadatos del Deployment
+  name: nginx-deployment                   # Nombre del Deployment
+  namespace: demo-k8s                      # Namespace donde vive
+  labels:                                  # Labels del Deployment
+    app: nginx-deploy
+spec:                                      # Estado deseado
+  replicas: 3                              # Número inicial de Pods
+  selector:                                # Selector para ReplicaSets/Pods
+    matchLabels:
+      app: nginx-deploy                    # Label que deben tener los Pods
+  template:                                # Plantilla de los Pods
+    metadata:
+      labels:
+        app: nginx-deploy
+    spec:
+      containers:                          # Lista de contenedores dentro del Pod (multi-container Pod)
+      - name: nginx                        # Contenedor principal (servidor web)
+        image: nginx:1.14.2                # Imagen Docker
+        ports:
+        - containerPort: 80                # Puerto del servidor web
+        resources:
+          requests:                        # Requests necesarios para HPA (base para % de CPU)
+            cpu: "100m"
+            memory: "128Mi"
+          limits:                          # Límites máximos permitidos
+            cpu: "500m"
+            memory: "256Mi"
+
+      - name: load-generator               # Contenedor sidecar que genera tráfico automáticamente
+        image: busybox:1.36                # Imagen pequeña con herramientas básicas (incluye wget)
+        command:                           # Comando que ejecuta el contenedor
+          - /bin/sh                        # Shell
+          - -c                             # Ejecutar el script inline
+          - |                              # Script en múltiples líneas
+            while true; do                 # Bucle infinito para generar tráfico constante
+              wget -q -O- http://localhost:80 >/dev/null  # Request al nginx del MISMO Pod vía localhost
+              sleep 0.1;                   # Pausa corta para controlar la intensidad de tráfico
+            done
+        resources:                         # Recursos del generador (para controlar cuánto empuja al HPA)
+          requests:
+            cpu: "50m"                     # CPU mínima reservada para el generador
+            memory: "32Mi"                 # Memoria mínima reservada
+          limits:
+            cpu: "200m"                    # Límite de CPU del generador (ajústalo si quieres más/menos presión)
+            memory: "64Mi"                 # Límite de memoria del generador
+---
+# ====================================================
+# 5. HORIZONTAL POD AUTOSCALER (HPA)
+# ====================================================
+apiVersion: autoscaling/v2                 # API moderna para autoscaling
+kind: HorizontalPodAutoscaler              # Tipo: HPA
+metadata:                                  # Metadatos del HPA
+  name: nginx-hpa                          # Nombre del HPA
+  namespace: demo-k8s                      # Namespace donde aplica
+spec:                                      # Reglas de escalado
+  scaleTargetRef:                          # Recurso que va a escalar
+    apiVersion: apps/v1                    # API del recurso objetivo
+    kind: Deployment                       # Tipo de recurso a escalar
+    name: nginx-deployment                 # Nombre del Deployment
+  minReplicas: 2                           # Mínimo de Pods permitidos
+  maxReplicas: 8                           # Máximo de Pods permitidos
+  metrics:                                 # Métricas usadas para escalar
+  - type: Resource                         # Tipo de métrica (CPU/memoria)
+    resource:
+      name: cpu                            # Métrica: CPU
+      target:
+        type: Utilization                  # Basado en porcentaje de uso
+        averageUtilization: 70             # Objetivo: 70% de CPU

@@ -48,25 +48,18 @@ kubectl cp ./config.json <nombre-del-pod>:/etc/config/config.json
 ```
 
 ## 🌌 Gestión de Namespaces
-
 Los Namespaces son particiones virtuales dentro del clúster que ayudan a organizar y aislar recursos.
-
 ```bash
 # Listar todos los namespaces existentes en el clúster
 kubectl get namespaces
-
 # Crear un nuevo namespace para organizar tus recursos
 kubectl create namespace <nombre-namespace>
-
 # Ver todos los recursos (pods, services, etc.) de un namespace específico
 kubectl get all -n <nombre-namespace>
-
 # Ejecutar un comando (como listar pods) en TODOS los namespaces a la vez
 kubectl get pods --all-namespaces
-
 # Describir un namespace para ver cuotas de recursos o límites
 kubectl describe namespace <nombre-namespace>
-
 # Eliminar un namespace (CUIDADO: Borra todos los recursos que contiene)
 kubectl delete namespace <nombre-namespace>
 ```
@@ -139,4 +132,18 @@ minikube start                               # Inicia el clúster local
 minikube dashboard                           # Abre la interfaz gráfica en el navegador
 minikube service <nombre-servicio>           # Te da la URL para acceder a una app desde fuera del clúster
 ```
----
+kubectl apply -f replicaset.yml               # Crea o actualiza el ReplicaSet de forma declarativa
+kubectl get rs                                # Lista los ReplicaSets en el namespace actual
+kubectl get rs -o wide                        # Lista con detalles extra (imágenes, selectores)
+kubectl describe rs <nombre-rs>               # Muestra el estado detallado y eventos de sistema
+kubectl edit rs <nombre-rs>                   # Abre el YAML en el editor para cambios en caliente
+kubectl describe hpa frontend-hpa 
+kubectl delete rs <nombre-rs>                 # Elimina el RS y todos sus Pods asociados
+kubectl delete rs <nombre-rs> --cascade=orphan # Elimina el RS pero mantiene los Pods vivos
+
+Escalamiento y Disponibilidad
+Bash
+kubectl scale rs <nombre-rs> --replicas=5     # Escala manualmente a 5 réplicas
+kubectl autoscale rs <nombre-rs> --min=2 --max=10 --cpu-percent=80 # comando antiguo Configura autoescalado
+kubectl autoscale rs frontend --min=2 --max=10 --cpu=80%
+kubectl get hpa
