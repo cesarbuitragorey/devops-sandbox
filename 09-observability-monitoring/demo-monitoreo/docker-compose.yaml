@@ -1,0 +1,37 @@
+services:
+  # LA APP: Una API sencilla que ya tiene métricas de Prometheus integradas
+  tienda-demo:
+    image: stefanprodan/podinfo
+    container_name: tienda_app
+    hostname: tiendahost
+    ports:
+      - "8081:9898" # Acceso en http://localhost:8081
+    environment:
+      - PODINFO_UI_COLOR=#34577c
+
+  # GENERADOR DE TRÁFICO: Un pequeño comando que hace peticiones cada 1s
+  generador:
+    image: alpine
+    container_name: generador_trafico
+    depends_on:
+      - tienda-demo
+    command: /bin/sh -c "while true; do wget -qO- http://tienda-demo:9898 > /dev/null; sleep 1; done"
+
+  # MONITORIZACIÓN
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus_app
+    hostname: prometheushost
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana_app
+    hostname: grafanahost
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
