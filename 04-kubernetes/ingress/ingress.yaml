@@ -1,0 +1,33 @@
+# ==============================
+# INGRESS: define reglas HTTP/HTTPS para exponer Services internos (ClusterIP) al exterior,
+# enrutar tráfico por dominio (host) y/o ruta (path), y centralizar acceso mediante un Ingress Controller (ej. NGINX)
+# ==============================
+
+apiVersion: networking.k8s.io/v1      # Versión estable de la API para recursos Ingress
+kind: Ingress                         # Tipo de recurso: Ingress (reglas de enrutamiento HTTP/HTTPS)
+metadata:
+  name: sample-ingress                # Nombre del Ingress dentro del namespace
+  creationTimestamp: null             # Campo autogenerado por Kubernetes al aplicar el recurso
+
+spec:
+  ingressClassName: nginx             # Indica qué Ingress Controller procesará este Ingress
+                                      # Ejemplo: nginx, traefik, haproxy, alb (AWS), etc.
+
+  rules:                              # Lista de reglas de enrutamiento
+  - host: foo.com                     # Dominio que debe coincidir con el Host de la petición HTTP
+    http:                             # Configuración específica para tráfico HTTP
+      paths:                          # Lista de rutas para este dominio
+      - path: /                       # Ruta solicitada (/) dentro del dominio foo.com
+        pathType: Prefix              # Tipo de coincidencia:
+                                      # Prefix = coincide con /, /app, /api, etc.
+                                      # Otras opciones: Exact, ImplementationSpecific
+
+        backend:                      # Backend al que se redirige el tráfico
+          service:                    # El backend es un Service de Kubernetes
+            name: foo-service         # Nombre del Service destino (debe existir)
+            port:
+              number: 80              # Puerto del Service al que se envía el tráfico HTTP
+
+status:
+  loadBalancer: {}                    # Rellenado automáticamente por el Ingress Controller
+                                      # cuando el Ingress queda expuesto externamente

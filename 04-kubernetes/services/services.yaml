@@ -1,0 +1,48 @@
+# ==============================
+# DEPLOYMENT: crea los contenedores (Pods)
+# ==============================
+
+apiVersion: apps/v1            # Versión de la API para Deployments
+kind: Deployment               # Tipo de recurso: Deployment
+metadata:
+  name: app-demo               # Nombre del deployment
+spec:
+  replicas: 2                  # Número de Pods que se van a crear
+  selector:
+    matchLabels:
+      app: app-demo            # El Deployment controla Pods con este label
+  template:
+    metadata:
+      labels:
+        app: app-demo          # Label del Pod (debe coincidir con el selector)
+    spec:
+      containers:
+        - name: contenedor-web # Nombre del contenedor
+          image: nginx:latest  # Imagen Docker usada
+          ports:
+            - containerPort: 80 # Puerto donde escucha la app dentro del contenedor
+          resources:            # ✅ Definición de recursos del contenedor
+            requests:           # Recursos mínimos garantizados (usados por el scheduler)
+              cpu: "100m"       # Solicita 0.1 CPU
+              memory: "128Mi"   # Solicita 128 MiB de memoria
+            limits:             # Límites máximos permitidos para el contenedor
+              cpu: "500m"       # Máximo 0.5 CPU (evita acaparar CPU)
+              memory: "256Mi"   # Máximo 256 MiB (evita consumir toda la RAM del nodo)
+
+---
+# ==============================
+# SERVICE: expone los Pods
+# ==============================
+
+apiVersion: v1                 # Versión de la API para Service
+kind: Service                  # ✅ Tipo de recurso: Service
+metadata:
+  name: app-demo-service       # Nombre del Service
+spec:
+  type: ClusterIP              # Tipo de Service (acceso interno al clúster)
+  selector:
+    app: app-demo              # Selecciona los Pods con este label
+  ports:
+    - protocol: TCP            # Protocolo de red
+      port: 80                 # Puerto del Service
+      targetPort: 80           # Puerto real del contenedor al que redirige
