@@ -18,6 +18,26 @@ spec:
           image: nginx:stable
           ports:
             - containerPort: 80
+          
+  # 1️⃣ ConfigMap como variable de entorno
+          env:
+            - name: APP_MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: demo-app-config
+                  key: APP_MESSAGE
+
+          # 2️⃣ ConfigMap como archivo
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+
+      volumes:
+        - name: config
+          configMap:
+            name: demo-app-config
+
           resources:
             requests:
               cpu: "100m"
