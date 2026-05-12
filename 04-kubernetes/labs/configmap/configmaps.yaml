@@ -1,0 +1,164 @@
+# =============================================================================
+# LAB COMPLETO: ConfigMap + Pod + Argo CD demo-view (en un solo archivo)
+#
+# OBJETIVO:
+# - Crear un ConfigMap con configuración NO sensible.
+# - Consumirlo en un Pod de dos formas:
+#   (1) Variables de entorno (env + configMapKeyRef)
+#   (2) Archivos montados en un volumen (volumes.configMap + items)
+# - Crear una Application de Argo CD (demo-view) para visualizar el árbol en la UI.
+#
+# IMPORTANTE:
+# - El ConfigMap NO es seguro (para secretos usa Secret).
+# - La Application de Argo CD debe estar en el namespace "argocd". [1](https://programmerclick.com/article/71413042110/)
+# =============================================================================
+
+# ==============================
+# 1) NAMESPACE del lab
+# ==============================
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: demo-k8s
+  # Namespace donde vivirá este laboratorio (ConfigMap y Pod).
+
+---
+# ==============================
+# 2) CONFIGMAP: configuración NO sensible
+# ==============================
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: game-demo
+  namespace: demo-k8s
+  # El Pod y el ConfigMap deben estar en el mismo namespace para que el Pod lo consuma. [2](https://elysiatools.com/es/samples/kubernetes-yaml)
+data:
+  # Claves usadas como variables de entorno:
+  player_initial_lives: "3"                 # Valor que leerá el Pod como env var
+  ui_properties_file_name: "user-interface.properties"  # Otro valor como env var
+
+  # Claves usadas como "archivos" montados:
+  game.properties: |
+    enemy.types=aliens,monsters
+    player.max-lives=5
+    difficulty=normal
+
+  user-interface.properties: |
+    color.theme=dark
+    ui.language=es
+    ui.scale=1.0
+
+---
+# ==============================
+# 3) POD: consume ConfigMap como env y como volumen
+# ==============================
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-demo-pod
+  namespace: demo-k8s
+  # El Pod se crea dentro del namespace del lab.
+
+spec:
+  containers:
+    - name: demo
+      # Nombre lógico del contenedor dentro del Pod.
+
+      image: alpine
+      # Imagen ligera para pruebas.
+
+      command: ["sleep", "3600"]
+      # Comando simple para mantener el contenedor vivo por 1 hora.
+
+      env:
+        # (1) Inyectar valores específicos del ConfigMap como variables de entorno.
+
+        - name: PLAYER_INITIAL_LIVES
+          # Nombre de la variable dentro del contenedor (puede diferir del key del ConfigMap).
+          valueFrom:
+            configMapKeyRef:
+              name: game-demo
+              # Nombre del ConfigMap origen.
+              key: player_initial_lives
+              # Key exacta dentro del ConfigMap que se inyectará. [2](https://elysiatools.com/es/samples/kubernetes-yaml)
+
+        - name: UI_PROPERTIES_FILE_NAME
+          # Segunda variable de entorno tomada del ConfigMap.
+          valueFrom:
+            configMapKeyRef:
+              name: game-demo
+              key: ui_properties_file_name
+              # Otra key del ConfigMap usada como variable de entorno. [2](https://elysiatools.com/es/samples/kubernetes-yaml)
+
+      volumeMounts:
+        # (2) Montar el ConfigMap como archivos dentro del contenedor.
+
+        - name: config
+          # Debe coincidir con spec.volumes[].name.
+          mountPath: "/config"
+          # Ruta donde se verán los archivos generados por el ConfigMap.
+          readOnly: true
+          # Buena práctica: configuración montada como solo lectura.
+
+  volumes:
+    # Los volúmenes se definen a nivel Pod y luego se montan en contenedores.
+
+    - name: config
+      # Nombre del volumen que se montará en volumeMounts.
+      configMap:
+        # Indica que este volumen viene de un ConfigMap. [2](https://elysiatools.com/es/samples/kubernetes-yaml)
+        name: game-demo
+        # Nombre del ConfigMap que se montará como volumen.
+
+        items:
+          # Controla qué keys se convierten en archivos y con qué nombre.
+
+          - key: "game.properties"
+            # Key del ConfigMap que será un archivo.
+            path: "game.properties"
+            # Nombre del archivo en /config/game.properties
+
+          - key: "user-interface.properties"
+            # Segunda key del ConfigMap como archivo.
+            path: "user-interface.properties"
+            # Nombre del archivo en /config/user-interface.properties
+
+---
+# ==============================
+# 4) ARGO CD: Application demo-view (para ver el árbol en la UI)
+# ==============================
+
+# NOTA:
+# - Argo CD permite definir Applications declarativamente y aplicarlas con kubectl. [1](https://programmerclick.com/article/71413042110/)
+# - Este recurso DEBE estar en el namespace "argocd" (donde está Argo CD). [1](https://programmerclick.com/article/71413042110/)
+# - Para que sea "solo visualización", dejamos sync manual (sin auto-sync).
+# - Aun así, Argo CD necesita repoURL + path válidos para renderizar manifests.
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-view
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/cesarbuitragorey/devops-sandbox.git
+    # Repo que Argo CD leerá.
+    targetRevision: main
+    # Rama (o tag/commit).
+    path: 04-kubernetes/labs/configmap
+    # Carpeta exacta dentro del repo que contiene este lab.
+
+  destination:
+    server: https://kubernetes.default.svc
+    # Cluster interno donde corre Argo CD.
+    namespace: demo-k8s
+    # Namespace donde viven los recursos del lab.
+
+  syncPolicy: {}
+  # Sync manual: Argo CD observa y muestra el árbol.
+  # No se recomienda auto-sync en labs porque puede "recrear" cosas si las borras manualmente. [3](https://gist.github.com/wholroyd/748e09ca0b78897750791172b2abb051)
