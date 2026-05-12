@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-view
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/TU-USUARIO/TU-REPO.git
+    targetRevision: main
+    path: demo-kubernetes/app
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo-k8s
+
+  syncPolicy: {}
