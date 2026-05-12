@@ -26,6 +26,17 @@ spec:
                 configMapKeyRef:
                   name: demo-app-config
                   key: APP_MESSAGE
+          # 2️⃣ Secret como variable de entorno
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: demo-app-secret
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: demo-app-secret
+                  key: DB_PASSWORD
 
           # ✅ Recursos VAN AQUÍ (en el contenedor)
           resources:
@@ -38,9 +49,14 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /config
+              readOnly: true           
+            - name: secret-volume
+              mountPath: /etc/secrets
               readOnly: true
-
       volumes:
         - name: config
           configMap:
             name: demo-app-config
+        - name: secret-volume
+          secret:
+            secretName: demo-app-secret
