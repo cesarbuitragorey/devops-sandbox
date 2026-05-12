@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-view
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/cesarbuitragorey/devops-sandbox.git
+    targetRevision: main
+    path: 04-kubernetes/ingress
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo-k8s
+  syncPolicy:
+    automated: null   # 👈 SIN auto-sync (solo observación)

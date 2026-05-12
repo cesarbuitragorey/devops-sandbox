@@ -123,3 +123,40 @@ Argo CD instalado dentro del clúster
 Usado solo como visor gráfico
 Acceso desde Windows vía kubectl port-forward
 Configuración simple, segura y estable para WSL + Minikube
+-----
+
+Argo CD SIGUE gestionando el namespace demo-k8s a través de la Application demo-view.
+Por eso, todo lo que borras vuelve a levantarse.
+Esto es comportamiento esperado, no un bug.
+
+🧠 Qué está pasando exactamente
+La Application demo-view le dice a Argo CD:
+
+“Asegúrate de que lo que está en Git exista siempre en Kubernetes”
+
+Entonces:
+
+Tú borras recursos (o el namespace demo-k8s)
+Argo CD detecta que el estado real ≠ estado deseado
+Argo CD recrea automáticamente todo
+El namespace “resucita”
+
+Esto se llama reconciliation loop y es el corazón de Argo CD.
+
+✅ SOLUCIÓN CORRECTA (haz ESTO)
+Como tú quieres parar definitivamente que se levanten recursos:
+👉 BORRA la Application demo-view
+Shellkubectl delete application demo-view -n argocdMostrar más líneas
+✅ Esto:
+
+Detiene la reconciliación
+NO borra Argo CD
+NO toca tu repositorio Git
+Libera completamente el namespace
+
+
+✅ Verificación (muy importante)
+Comprueba que ya no existe ninguna Application:
+Shellkubectl get applications -AMostrar más líneas
+Resultado esperado:
+No resources found
