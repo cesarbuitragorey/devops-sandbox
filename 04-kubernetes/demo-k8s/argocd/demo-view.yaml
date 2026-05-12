@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/cesarbuitragorey/devops-sandbox.git
     targetRevision: main
-    path: demo-k8s/app
+    path: 04-kubernetes/demo-k8s/app
 
   destination:
     server: https://kubernetes.default.svc
