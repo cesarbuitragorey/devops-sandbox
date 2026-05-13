@@ -160,3 +160,5 @@ Comprueba que ya no existe ninguna Application:
 Shellkubectl get applications -AMostrar más líneas
 Resultado esperado:
 No resources found
+
+kubectl port-forward svc/argocd-server -n argocd 8080:443
