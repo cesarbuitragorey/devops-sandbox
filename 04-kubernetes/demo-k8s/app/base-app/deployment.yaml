@@ -26,6 +26,7 @@ spec:
                 configMapKeyRef:
                   name: demo-app-config
                   key: APP_MESSAGE
+
           # 2️⃣ Secret como variable de entorno
             - name: DB_USER
               valueFrom:
@@ -38,14 +39,13 @@ spec:
                   name: demo-app-secret
                   key: DB_PASSWORD
 
-          # ✅ Recursos VAN AQUÍ (en el contenedor)
           resources:
             requests:
               cpu: "100m"
             limits:
               cpu: "500m"
 
-          # 2️⃣ ConfigMap como archivo
+          # 3️⃣ ConfigMap y Secret como archivos
           volumeMounts:
             - name: config
               mountPath: /config

@@ -1,7 +1,23 @@
 # 🚀 Guía de Comandos de Kubernetes (kubectl)
 ## 🔍 Inspección de Recursos
 
-```bash
+
+04-kubernetes/
+├── labs/                     # 👈 solo aprendizaje
+│   ├── pods/
+│   ├── replicasets/
+│   ├── deployments/
+│   ├── daemonsets/
+│   └── ingress/
+│
+├── demo-app/                 # 👈 INTENCIÓN CLARA (GitOps)
+│   ├── namespace.yaml
+│   ├── deployment.yaml
+│   ├── service.yaml
+│   ├── ingress.yaml
+│
+└── argocd/
+    └── demo-view.yaml
 # Listar pods en el namespace actual
 kubectl get pods
 # Listar con detalles extendidos (IPs y nodos de destino)
