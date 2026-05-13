@@ -24,4 +24,10 @@ Prometheus  → métricas
 Grafana     → dashboards + logs
 Loki        → backend de logs
 Promtail    → agente que lee logs de pods
+grafanaÑ
+usuario: admin
+contrasena: F83uY8Vi0l7AN0mCmtDEpEFJiGfgeu2ROy3D2zWm
+
+kubectl -n monitoring get secret monitoring-grafana \
+  -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 
