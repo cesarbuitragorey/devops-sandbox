@@ -1,0 +1,18 @@
+apiVersion: v1                 # Versión de API para Pods
+kind: Pod                      # Recurso Pod
+metadata:
+  name: emptydir-demo          # Nombre del Pod
+spec:
+  containers:
+  - name: app                  # Contenedor principal
+    image: busybox             # Imagen ligera
+    command:                   # Comando que corre al iniciar
+      - sh
+      - -c
+      - echo "hola" > /data/file.txt && sleep 3600
+    volumeMounts:
+    - name: temp-storage       # Nombre del volumen lógico
+      mountPath: /data         # Ruta dentro del contenedor
+  volumes:
+  - name: temp-storage         # Definición del volumen
+    emptyDir: {}               # Volumen EFÍMERO, se borra al morir el Pod

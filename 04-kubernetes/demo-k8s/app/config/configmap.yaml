@@ -5,6 +5,8 @@ metadata:
   namespace: demo-k8s
 data:
   APP_MESSAGE: "Hola desde ConfigMap (GitOps + Argo CD)"
+  APP_ENV: demo
+  LOG_LEVEL: debug
   app.properties: |
     feature.enabled=true
     ui.color=blue

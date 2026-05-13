@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistentVolumeClaim      # Solicitud de storage
+metadata:
+  name: demo-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi              # Cuánto necesita la app

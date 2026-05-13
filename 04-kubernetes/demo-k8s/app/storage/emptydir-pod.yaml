@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: emptydir-demo
+spec:
+  containers:
+  - name: app
+    image: busybox
+    command: ["sh","-c","echo temp > /data/tmp.txt && sleep 3600"]
+    volumeMounts:
+    - name: tmp
+      mountPath: /data
+  volumes:
+  - name: tmp
+    emptyDir: {}
