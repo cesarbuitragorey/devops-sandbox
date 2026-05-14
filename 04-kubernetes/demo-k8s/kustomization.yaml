@@ -1,0 +1,31 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: demo-k8s
+
+resources:
+  # Namespace
+  - app/namespace.yaml
+
+  # RBAC (archivos directos)
+  - app/rbac/app-serviceaccount.yaml
+  - app/rbac/app-role.yaml
+  - app/rbac/app-rolebinding.yaml
+  - app/rbac/cicd-serviceaccount.yaml
+  - app/rbac/cicd-role.yaml
+  - app/rbac/cicd-rolebinding.yaml
+
+  # App principal
+  - app/base-app/deployment.yaml
+  - app/base-app/service.yaml
+  - app/base-app/hpa.yaml
+
+  # Configuración
+  - app/config/configmap.yaml
+  - app/config/secret.yaml
+
+  # Storage demos
+  - app/storage/emptydir-pod.yaml
+  - app/storage/hostpath-pod.yaml
+  - app/storage/pv.yaml
+  - app/storage/pvc.yaml
+  - app/storage/pvc-pod.yaml
