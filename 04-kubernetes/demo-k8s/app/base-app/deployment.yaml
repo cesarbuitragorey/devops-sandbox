@@ -13,6 +13,7 @@ spec:
       labels:
         app: demo-app
     spec:
+      serviceAccountName: demo-app-sa   # ✅ RBAC: el Pod usará este ServiceAccount (no el default)
       containers:
         - name: web
           image: nginx:stable

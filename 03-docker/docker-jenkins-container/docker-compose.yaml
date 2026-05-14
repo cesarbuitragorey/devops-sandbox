@@ -7,7 +7,7 @@ services: # Define los contenedores que forman parte de tu aplicación
     restart: always # Reinicia el contenedor automáticamente si falla o si reinicias Linux Mint
     
     ports: # Mapeo de puertos: "Puerto_Host:Puerto_Contenedor"
-      - "8080:8080"   # Puerto para acceder a la interfaz web (navegador)
+      - "8181:8181"   # Puerto para acceder a la interfaz web (navegador)
       - "50000:50000" # Puerto usado para conectar nodos o agentes esclavos de Jenkins
     
     volumes: # Configuración de persistencia de datos

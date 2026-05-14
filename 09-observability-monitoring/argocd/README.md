@@ -78,7 +78,7 @@ admin
 
 Contraseña
 (obtenerla desde WSL):
-Shellkubectl -n argocd get secret argocd-initial-admin-secret \  -o jsonpath="{.data.password}" | base64 -d; echoMostrar más líneas
+Shellkubectl -n argocd get secret argocd-initial-admin-secret \  -o jsonpath="{.data.password}" | base64 -d; echo Mostrar más líneas
 
 🌳 Qué se puede ver en la UI
 Desde la interfaz gráfica de Argo CD es posible:
@@ -162,3 +162,7 @@ Resultado esperado:
 No resources found
 
 kubectl port-forward svc/argocd-server -n argocd 8080:443
+user: admin
+pass: ZI-ZGo1HXtfXCAG9
+kubectl -n argocd get secret argocd-initial-admin-secret \
+  -o jsonpath="{.data.password}" | base64 --decode ; echo
