@@ -29,3 +29,6 @@ resources:
   - app/storage/pv.yaml
   - app/storage/pvc.yaml
   - app/storage/pvc-pod.yaml
+
+   # Storage demos
+  - argocd/demo-view.yaml
