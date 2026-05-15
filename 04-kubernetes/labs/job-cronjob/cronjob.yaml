@@ -3,13 +3,9 @@ kind: CronJob                # Tipo de recurso: ejecución programada
 
 metadata:
   name: hello                # Nombre único del CronJob en el cluster
-  namespace: demo-k8s
 
 spec:
   schedule: "* * * * *"      # Expresión cron → se ejecuta cada minuto
-  successfulJobsHistoryLimit: 2
-  failedJobsHistoryLimit: 2
-  concurrencyPolicy: Forbid    # Evita ejecutar un nuevo Job si existe uno aún en ejecución
 
   jobTemplate:               # Plantilla del Job que se va a crear en cada ejecución
     spec:
