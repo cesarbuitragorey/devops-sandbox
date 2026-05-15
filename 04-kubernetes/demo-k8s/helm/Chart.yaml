@@ -1,7 +1,66 @@
+# apiVersion: The chart API version (required)
 apiVersion: v2
+
+# name: The name of the chart (required)
 name: demo-k8s
+
+# description: A single-sentence description of this project (optional)
 description: A Helm chart for the demo-k8s application
 
+# type: The type of the chart (optional)
+# Valid values are "application" or "library".
 type: application
+
+# version: A SemVer 2 version (required)
 version: 0.1.0
+
+# kubeVersion: A SemVer range of compatible Kubernetes versions (optional)
+# Uncomment and update to restrict this chart to compatible clusters.
+# kubeVersion: ">=1.20.0-0"
+
+# keywords: A list of keywords about this project (optional)
+keywords:
+  - demo
+  - k8s
+  - helm
+  - argocd
+
+# home: The URL of this project's home page (optional)
+home: https://github.com/cesarbuitragorey/devops-sandbox
+
+# sources: A list of URLs to source code for this project (optional)
+sources:
+  - https://github.com/cesarbuitragorey/devops-sandbox
+
+# dependencies: A list of the chart requirements (optional)
+# Example below shows how to add a dependency chart such as nginx.
+dependencies: []
+# - name: nginx
+#   version: "1.2.3"
+#   repository: "https://example.com/charts"
+#   condition: subchart1.enabled
+#   tags:
+#     - frontend
+#   import-values:
+#     - child.key: parent.key
+#   alias: my-nginx
+
+# maintainers: A list of maintainers for this chart (optional)
+maintainers:
+  - name: Demo Team
+    email: demo-team@example.com
+    url: https://github.com/cesarbuitragorey
+
+# icon: A URL to an SVG or PNG image to be used as an icon (optional).
+icon: https://raw.githubusercontent.com/cesarbuitragorey/devops-sandbox/main/docs/icon.png
+
+# appVersion: The version of the app that this contains (optional).
+# It needn't be SemVer, but quotes are recommended.
 appVersion: "1.0.0"
+
+# deprecated: Whether this chart is deprecated (optional, boolean)
+deprecated: false
+
+# annotations: A list of annotations keyed by name (optional).
+annotations:
+  example: "demo-k8s helm chart"
