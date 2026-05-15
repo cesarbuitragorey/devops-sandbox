@@ -1,0 +1,50 @@
+namespace: demo-k8s
+replicaCount: 4
+image:
+  repository: nginx
+  tag: stable
+  pullPolicy: IfNotPresent
+config:
+  appMessage: "Hola desde ConfigMap (GitOps + Argo CD)"
+  appEnv: demo
+  logLevel: debug
+  appProperties: |
+    feature.enabled=true
+    ui.color=blue
+secret:
+  dbUser: admin
+  dbPassword: supersecret
+service:
+  type: ClusterIP
+  port: 80
+hpa:
+  minReplicas: 4
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 50
+storage:
+  pv:
+    path: /mnt/demo-pv
+    storage: 2Gi
+  pvc:
+    storage: 2Gi
+job:
+  name: pi
+  image: perl
+  command:
+    - perl
+    - -Mbignum=bpi
+    - -wle
+    - print bpi(2000)
+  backoffLimit: 4
+cronjob:
+  name: hello
+  schedule: "* * * * *"
+  image: busybox:1.28
+  imagePullPolicy: IfNotPresent
+  command:
+    - /bin/sh
+    - -c
+    - date; echo "Hello from the Kubernetes cluster"
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 2
+  concurrencyPolicy: Forbid

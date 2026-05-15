@@ -9,10 +9,14 @@ spec:
   source:
     repoURL: https://github.com/cesarbuitragorey/devops-sandbox.git
     targetRevision: main
-    path: 04-kubernetes/demo-k8s/
+    path: 04-kubernetes/demo-k8s/helm
+    helm: {}
 
   destination:
     server: https://kubernetes.default.svc
     namespace: demo-k8s
 
-  syncPolicy: {}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: demo-pv
+  namespace: {{ .Values.namespace }}
+spec:
+  capacity:
+    storage: {{ .Values.storage.pv.storage }}
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: {{ .Values.storage.pv.path }}
+    type: Directory

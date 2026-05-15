@@ -1,0 +1,15 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.job.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  template:
+    spec:
+      containers:
+      - name: pi
+        image: {{ .Values.job.image | quote }}
+        command:
+{{ toYaml .Values.job.command | indent 8 }}
+      restartPolicy: Never
+  backoffLimit: {{ .Values.job.backoffLimit }}

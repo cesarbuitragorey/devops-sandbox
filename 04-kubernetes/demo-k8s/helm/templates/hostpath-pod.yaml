@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hostpath-demo
+  namespace: {{ .Values.namespace }}
+spec:
+  containers:
+  - name: app
+    image: busybox
+    command: ["sh","-c","ls /host && sleep 3600"]
+    volumeMounts:
+    - name: host
+      mountPath: /host
+  volumes:
+  - name: host
+    hostPath:
+      path: /tmp
+      type: Directory
