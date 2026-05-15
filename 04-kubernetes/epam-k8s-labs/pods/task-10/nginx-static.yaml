@@ -1,0 +1,16 @@
+# Static Pod manifest for kubelet-managed pod recreation
+# secret phrase: supersecret
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-static
+  namespace: static
+  labels:
+    app: nginx-static
+spec:
+  containers:
+  - name: nginx
+    image: nginx:alpine
+    ports:
+    - containerPort: 80
+  restartPolicy: Always

@@ -1,0 +1,143 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"labels":{"name":"redis-db"},"name":"redis-db","namespace":"trouble"},"spec":{"containers":[{"args":["sleeep infinity"],"command":["sh","-c"],"image":"busybox","name":"redis-db"}]}}
+  creationTimestamp: "2026-05-15T20:32:06Z"
+  generation: 1
+  labels:
+    name: redis-db
+  name: redis-db
+  namespace: trouble
+  resourceVersion: "57079"
+  uid: d086b89b-c6d7-4e16-b80d-4c0d3755a260
+spec:
+  containers:
+  - args:
+    - sleeep infinity
+    command:
+    - sh
+    - -c
+    image: busybox
+    imagePullPolicy: Always
+    name: redis-db
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-88bbz
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: desktop-lph4g7g
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-88bbz
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-15T20:32:08Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-15T20:32:06Z"
+    observedGeneration: 1
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-15T20:32:06Z"
+    message: 'containers with unready status: [redis-db]'
+    observedGeneration: 1
+    reason: ContainersNotReady
+    status: "False"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-15T20:32:06Z"
+    message: 'containers with unready status: [redis-db]'
+    observedGeneration: 1
+    reason: ContainersNotReady
+    status: "False"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2026-05-15T20:32:06Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://7cbe41d42d1ef50e1b480670b81a7fcbf7c5a0f83cbb39684f212766804b3005
+    image: docker.io/library/busybox:latest
+    imageID: docker.io/library/busybox@sha256:1487d0af5f52b4ba31c7e465126ee2123fe3f2305d638e7827681e7cf6c83d5e
+    lastState:
+      terminated:
+        containerID: containerd://7cbe41d42d1ef50e1b480670b81a7fcbf7c5a0f83cbb39684f212766804b3005
+        exitCode: 127
+        finishedAt: "2026-05-15T21:03:16Z"
+        reason: Error
+        startedAt: "2026-05-15T21:03:16Z"
+    name: redis-db
+    ready: false
+    resources: {}
+    restartCount: 11
+    started: false
+    state:
+      waiting:
+        message: back-off 5m0s restarting failed container=redis-db pod=redis-db_trouble(d086b89b-c6d7-4e16-b80d-4c0d3755a260)
+        reason: CrashLoopBackOff
+    user:
+      linux:
+        gid: 0
+        supplementalGroups:
+        - 0
+        - 10
+        uid: 0
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-88bbz
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 172.18.240.147
+  hostIPs:
+  - ip: 172.18.240.147
+  observedGeneration: 1
+  phase: Running
+  podIP: 10.42.0.196
+  podIPs:
+  - ip: 10.42.0.196
+  qosClass: BestEffort
+  startTime: "2026-05-15T20:32:06Z"

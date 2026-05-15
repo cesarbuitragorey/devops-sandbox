@@ -161,6 +161,11 @@ Shellkubectl get applications -AMostrar más líneas
 Resultado esperado:
 No resources found
 
+arramcar argp:
+kubectl annotate application demo-k8s \
+  -n argocd \
+  argocd.argoproj.io/refresh=normal --overwrite
+
 kubectl port-forward svc/argocd-server -n argocd 8080:443
 user: admin
 pass: ZI-ZGo1HXtfXCAG9
