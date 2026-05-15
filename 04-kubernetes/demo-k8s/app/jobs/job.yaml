@@ -1,0 +1,42 @@
+# Define la versión de la API de Kubernetes que se está utilizando.
+# "batch/v1" es la versión estable para objetos tipo Job (y CronJob).
+apiVersion: batch/v1
+
+# Indica el tipo de recurso que se va a crear.
+# En este caso es un Job, que ejecuta una tarea hasta completarse.
+kind: Job
+
+metadata:
+  # Nombre del Job dentro del cluster.
+  # Será usado para identificar este recurso.
+  name: pi
+  namespace: demo-k8s
+
+spec:
+  # Especificación del Job
+  template:
+    # Define el Pod que va a ejecutar el Job
+    spec:
+      containers:
+      - name: pi
+        # Nombre del contenedor dentro del Pod
+
+        image: perl
+        # Imagen de Docker que se va a usar.
+        # Aquí se usa la imagen oficial de Perl.
+
+        command: [ "perl", "-Mbignum=bpi", "-wle", "print bpi(2000)" ]
+        # Comando que ejecutará el contenedor:
+        # - perl: intérprete de Perl
+        # - -Mbignum=bpi: carga el módulo bignum para cálculos de alta precisión
+        # - -wle: habilita warnings (-w), loop automático (-l), ejecución de código (-e)
+        # - "print bpi(2000)": calcula y muestra PI con 2000 dígitos
+
+      restartPolicy: Never
+      # Política de reinicio del Pod:
+      # Never = no reiniciar el contenedor cuando termina
+      # (requerido para Jobs, ya que el objetivo es terminar)
+
+  backoffLimit: 4
+  # Número máximo de reintentos si el Job falla.
+  # Kubernetes intentará ejecutar el Job hasta 4 veces antes de marcarlo como fallido.

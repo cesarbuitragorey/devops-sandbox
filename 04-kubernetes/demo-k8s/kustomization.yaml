@@ -32,3 +32,7 @@ resources:
 
    # Storage demos
   - argocd/demo-view.yaml
+  
+  # Jobs y CronJobs
+  - app/jobs/job.yaml
+  - app/jobs/cronjob.yaml

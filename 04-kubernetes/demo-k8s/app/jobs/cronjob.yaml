@@ -1,0 +1,28 @@
+apiVersion: batch/v1          # Versión de la API de Kubernetes para Jobs y CronJobs
+kind: CronJob                # Tipo de recurso: ejecución programada
+
+metadata:
+  name: hello                # Nombre único del CronJob en el cluster
+  namespace: demo-k8s
+
+spec:
+  schedule: "* * * * *"      # Expresión cron → se ejecuta cada minuto
+
+  jobTemplate:               # Plantilla del Job que se va a crear en cada ejecución
+    spec:
+      template:              # Plantilla del Pod que ejecutará el Job
+        spec:
+          containers:        # Lista de contenedores dentro del Pod
+            - name: hello    # Nombre del contenedor
+              image: busybox:1.28   # Imagen Docker ligera (BusyBox)
+              imagePullPolicy: IfNotPresent  # Solo descarga la imagen si no está en el nodo
+              
+              command:       # Comando que se ejecuta dentro del contenedor
+                - /bin/sh    # Ejecuta el shell
+                - -c         # Permite pasar un comando como string
+                - date; echo "Hello from the Kubernetes cluster"
+                # Ejecuta dos comandos:
+                # 1. date → imprime la fecha actual
+                # 2. echo → imprime un mensaje en consola
+
+          restartPolicy: OnFailure  
