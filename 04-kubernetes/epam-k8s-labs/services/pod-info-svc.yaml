@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-info-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: podInfoApp
+  template:
+    metadata:
+      labels:
+        app: podInfoApp
+    spec:
+      containers:
+      - name: pod-info-app
+        image: sbeliakou/web-pod-info:v1
+        ports:
+        - containerPort: 80
