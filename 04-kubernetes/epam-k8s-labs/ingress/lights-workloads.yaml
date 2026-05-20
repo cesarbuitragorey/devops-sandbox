@@ -1,0 +1,136 @@
+# ------------------------
+# RED
+# ------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: red-color
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: lights
+      color: red
+  template:
+    metadata:
+      labels:
+        app: lights
+        color: red
+    spec:
+      containers:
+      - name: red
+        image: sbeliakou/color:v1
+        env:
+        - name: COLOR
+          value: "red"
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: red-svc
+spec:
+  selector:
+    app: lights
+    color: red
+  ports:
+  - port: 80
+    targetPort: 80
+
+# ------------------------
+# GREEN
+# ------------------------
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green-color
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lights
+      color: green
+  template:
+    metadata:
+      labels:
+        app: lights
+        color: green
+    spec:
+      containers:
+      - name: green
+        image: sbeliakou/color:v1
+        env:
+        - name: COLOR
+          value: "green"
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: green-svc
+spec:
+  selector:
+    app: lights
+    color: green
+  ports:
+  - port: 80
+    targetPort: 80
+
+# ------------------------
+# YELLOW
+# ------------------------
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: yellow-color
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: lights
+      color: yellow
+  template:
+    metadata:
+      labels:
+        app: lights
+        color: yellow
+    spec:
+      containers:
+      - name: yellow
+        image: sbeliakou/color:v1
+        env:
+        - name: COLOR
+          value: "yellow"
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: yellow-svc
+spec:
+  selector:
+    app: lights
+    color: yellow
+  ports:
+  - port: 80
+    targetPort: 80
+
+# ------------------------
+# SWITCH
+# ------------------------
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: switch
+spec:
+  selector:
+    app: lights
+  ports:
+  - port: 80
+    targetPort: 80

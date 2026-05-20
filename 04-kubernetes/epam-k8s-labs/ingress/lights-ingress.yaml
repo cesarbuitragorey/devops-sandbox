@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lights-ingress
+spec:
+  rules:
+  - host: lights.k8slab.net
+    http:
+      paths:
+
+      - path: /red/
+        pathType: Prefix
+        backend:
+          service:
+            name: red-svc
+            port:
+              number: 80
+
+      - path: /green/
+        pathType: Prefix
+        backend:
+          service:
+            name: green-svc
+            port:
+              number: 80
+
+      - path: /yellow/
+        pathType: Prefix
+        backend:
+          service:
+            name: yellow-svc
+            port:
+              number: 80
+
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: switch
+            port:
+              number: 80

@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: maroon-color
+  namespace: trouble-3
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: maroon-color
+  template:
+    metadata:
+      labels:
+        app: maroon-color
+    spec:
+      containers:
+      - name: maroon
+        image: sbeliakou/color:v1
+        env:
+        - name: COLOR
+          value: "maroon"
+        ports:
+        - containerPort: 80

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sorry-page
+  namespace: ingress-default-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: sorry-page
+  template:
+    metadata:
+      labels:
+        app: sorry-page
+    spec:
+      containers:
+      - name: sorry
+        image: sbeliakou/http-sorry-page
+        ports:
+        - containerPort: 80

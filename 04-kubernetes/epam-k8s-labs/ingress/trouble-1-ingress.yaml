@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: trouble-1-ingress
+  namespace: trouble-1
+spec:
+  rules:
+  - host: trouble-1.k8slab.net
+    http:
+      paths:
+
+      - path: /lime
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: lime-svc
+            port:
+              number: 8080
+
+      - path: /purple
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: purple-svc
+            port:
+              number: 8080

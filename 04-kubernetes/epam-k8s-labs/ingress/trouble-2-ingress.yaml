@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: trouble-2-ingress
+  namespace: trouble-2
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: trouble-2.k8slab.net
+    http:
+      paths:
+
+      - path: /teal
+        pathType: Exact
+        backend:
+          service:
+            name: teal-svc
+            port:
+              number: 80
+
+      - path: /navy
+        pathType: Exact
+        backend:
+          service:
+            name: navy-svc
+            port:
+              number: 80

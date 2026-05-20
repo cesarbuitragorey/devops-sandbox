@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: trouble-3-ingress
+  namespace: trouble-3
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: trouble-3.k8slab.net
+    http:
+      paths:
+
+      - path: /maroon
+        pathType: Prefix
+        backend:
+          service:
+            name: maroon-svc
+            port:
+              number: 80
+
+      - path: /fuchsia
+        pathType: Prefix
+        backend:
+          service:
+            name: fuchsia-svc
+            port:
+              number: 80
