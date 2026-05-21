@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd-elasticsearch
+spec:
+  selector:
+    matchLabels:
+      app: fluentd
+  template:
+    metadata:
+      labels:
+        app: fluentd
+    spec:
+      # --------------------------------------------------------------------
+      # CAMBIO (Task 4):
+      # Tus nodos tienen taints con efecto NoSchedule:
+      # - control-plane: node-role.kubernetes.io/control-plane:NoSchedule
+      # - worker:        node-role.kubernetes.io/worker:NoSchedule
+      #
+      # Para que el DaemonSet cree 1 pod por nodo, el Pod template debe
+      # incluir tolerations que hagan match con esos taints (misma key + effect).
+      # Con operator: Exists, no importa el "value" del taint (aunque sea vacío).
+      # --------------------------------------------------------------------
+      tolerations:
+        - key: "node-role.kubernetes.io/control-plane"
+          operator: "Exists"
+          effect: "NoSchedule"
+        - key: "node-role.kubernetes.io/worker"
+          operator: "Exists"
+          effect: "NoSchedule"
+
+      containers:
+        - name: fluentd
+          image: quay.io/fluentd_elasticsearch/fluentd:v4
