@@ -1,0 +1,10 @@
+# Definimos una lista de servidores virtuales bajo la clave 'vhosts'
+vhosts:
+  # Configuración para el primer dominio de la lista completa
+  - domain: "www.domain.tld"
+    # Ruta absoluta del directorio raíz para este sitio web
+    document_root: "/www/domain"
+    # Correo electrónico del administrador del servidor web
+    server_admin: "www-admin@foo.example.com"
+    # Ruta del directorio del sistema que tendrá las directivas de acceso apache
+    directory_path: "/usr/local/httpd/htdocs"

@@ -1,0 +1,29 @@
+{% for vhost in vhosts %}
+{# Declaramos el contenedor para el puerto 80 #}
+<VirtualHost *:80>
+{% if vhost.domain %}
+{# Asignamos el nombre de dominio al host #}
+  ServerName {{ vhost.domain }}
+{% endif %}
+{% if vhost.document_root %}
+{# Asignamos la ruta raiz de los archivos #}
+  DocumentRoot {{ vhost.document_root }}
+{% endif %}
+{% if vhost.server_admin %}
+{# Asignamos el correo del administrador #}
+  ServerAdmin {{ vhost.server_admin }}
+{% endif %}
+{# Abrimos directivas del directorio htdocs #}
+  <Directory "{{ vhost.directory_path }}">
+{# Permitimos configuraciones locales mediante htaccess #}
+     AllowOverride All
+{# Habilitamos los indices y enlaces simbolicos #}
+     Options Indexes FollowSymLinks
+{# Indicamos el orden de lectura de los permisos de red #}
+     Order allow,deny
+{# Concedemos acceso total a las peticiones del exterior #}
+     Allow from all
+{# Cerramos las directivas del directorio htdocs #}
+  </Directory>
+</VirtualHost>
+{% endfor %}

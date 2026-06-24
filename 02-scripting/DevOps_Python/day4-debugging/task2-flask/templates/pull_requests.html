@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pull Requests</title>
+</head>
+<body>
+    <h1>Pull Requests (state={{ state }})</h1>
+
+    <a href="/pull_requests?state=open">Open</a> |
+    <a href="/pull_requests?state=closed">Closed</a>
+
+    <table border="1" cellpadding="5" cellspacing="0">
+        <tr>
+            <th>Number</th>
+            <th>Title</th>
+            <th>Link</th>
+        </tr>
+
+        {% for pr in prs %}
+        <tr>
+            <td>{{ pr.number }}</td>
+            <td>{{ pr.title }}</td>
+            <td><a href="{{ pr.url }}" target="_blank">View</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
