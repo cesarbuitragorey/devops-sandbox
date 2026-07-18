@@ -29,6 +29,8 @@ jobs:
           docker images
     - name: Deploy to minikube
       run: kubectl apply -f k8s-node-app.yaml
+    - name: Wait for rollout
+      run: kubectl rollout status deployment/nodejs-app --timeout=90s
     - name: Test service URLs
       run: |
           minikube service list
