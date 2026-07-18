@@ -2,8 +2,13 @@ name: Deploy to Minikube using GitHub Actions
 
 on:
   push:
+    branches:
+      - main
     paths:
-      - '07-ci-cd/lab1-github-actions/**'
+      - '07-ci-cd/lab1-github-actions/Dockerfile'
+      - '07-ci-cd/lab1-github-actions/package.json'
+      - '07-ci-cd/lab1-github-actions/server.js'
+      - '07-ci-cd/lab1-github-actions/k8s-node-app.yaml'
       - '.github/workflows/deploy-to-minikube-github-actions.yaml'
 
 defaults:
