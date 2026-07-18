@@ -41,7 +41,7 @@ Sobre la expo: dado que el pipeline corre en runners efímeros de GitHub (no alg
 Cambia `replicas: 1` a `replicas: 2` en `k8s-node-app.yaml`, luego:
 
 ```bash
-git add 07-ci-cd/lab1-github-actions/k8s-node-app.yaml
+git add k8s-node-app.yaml
 git commit -m "Demo: cambio de replicas para disparar el pipeline"
 git push origin main
 ```
@@ -57,5 +57,5 @@ curl -s "https://api.github.com/repos/cesarbuitragorey/devops-sandbox/actions/ru
 
 Detalle de cada step (usa el `id` del run que salió arriba):
 ```bash
-curl -s "https://api.github.com/repos/cesarbuitragorey/devops-sandbox/actions/runs/<run_id>/jobs" | jq '.jobs[0].steps[] | {name, conclusion}'
+curl -s "https://api.github.com/repos/cesarbuitragorey/devops-sandbox/actions/runs/$(curl -s 'https://api.github.com/repos/cesarbuitragorey/devops-sandbox/actions/runs?branch=main&per_page=1' | jq '.workflow_runs[0].id')/jobs" | jq '.jobs[0].steps[] | {name, conclusion}'
 ```
