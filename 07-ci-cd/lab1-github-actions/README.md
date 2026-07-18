@@ -1,6 +1,6 @@
 Lab1: Continuous Deployment Using GitHub Actions
 
-
+![alt text](image.png)
 Minikube is a tool that makes it easy to run a Kubernetes cluster on your local machine. This can be useful for testing and development purposes, as it allows you to experiment with Kubernetes without access to a remote cluster.
 
 To use Minikube, you'll need to have Docker (or a similar container runtime) installed on your machine. Once you have that, you can download and install Minikube using the instructions provided on the official website: https://minikube.sigs.k8s.io/docs/start/
@@ -131,11 +131,11 @@ jobs:
 
 After that go to the actions in GitHub and check your job is success or not.
 
-
+![alt text](image-1.png)
 
 So you can see my job status is success.
 
-
+![alt text](image-2.png)
 
 We have covered How to Deploy to Minikube using GitHub Actions | Deploy Node.js app to Minikube using GitHub Actions.
 
