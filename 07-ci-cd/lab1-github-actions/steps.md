@@ -35,3 +35,27 @@ ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_<alias> -C "correo@ejemplo.com"
 # agregar la .pub en github.com/settings/ssh/new de esa cuenta
 # remote: git@github.com-<alias>:<usuario>/<repo>.git
 Sobre la expo: dado que el pipeline corre en runners efímeros de GitHub (no algo visible "en vivo" fuera de la UI), para tu presentación te recomiendo mostrar: el diagrama del README → el workflow YAML → un push en vivo → la pestaña Actions con los steps expandidos mostrando minikube service list y la URL expuesta. Puedo ayudarte a preparar ese guion cuando tengamos el pipeline en verde.
+
+## Probar el pipeline con un cambio de ejemplo
+
+Cambia `replicas: 1` a `replicas: 2` en `k8s-node-app.yaml`, luego:
+
+```bash
+git add 07-ci-cd/lab1-github-actions/k8s-node-app.yaml
+git commit -m "Demo: cambio de replicas para disparar el pipeline"
+git push origin main
+```
+
+Revisa el run en `https://github.com/cesarbuitragorey/devops-sandbox/actions`.
+
+## Verificar el resultado
+
+Estado del último run (`conclusion` debe decir `"success"`):
+```bash
+curl -s "https://api.github.com/repos/cesarbuitragorey/devops-sandbox/actions/runs?branch=main&per_page=1" | jq '.workflow_runs[0] | {sha: .head_sha, status, conclusion}'
+```
+
+Detalle de cada step (usa el `id` del run que salió arriba):
+```bash
+curl -s "https://api.github.com/repos/cesarbuitragorey/devops-sandbox/actions/runs/<run_id>/jobs" | jq '.jobs[0].steps[] | {name, conclusion}'
+```
