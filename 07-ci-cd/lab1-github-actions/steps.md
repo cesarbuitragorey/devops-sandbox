@@ -41,6 +41,7 @@ Sobre la expo: dado que el pipeline corre en runners efímeros de GitHub (no alg
 Cambia `replicas: 1` a `replicas: 2` en `k8s-node-app.yaml`, luego:
 
 ```bash
+git status
 git add k8s-node-app.yaml
 git commit -m "Demo: cambio de replicas para disparar el pipeline"
 git push origin main
