@@ -1,0 +1,44 @@
+<svg viewBox="0 0 1000 480" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <rect x="0" y="0" width="1000" height="480" fill="#e8eaf0"/>
+  <rect x="10" y="10" width="980" height="460" fill="none" stroke="#111111" stroke-width="2"/>
+  <rect x="10" y="10" width="60" height="40" fill="#111111"/>
+  <text x="40" y="35" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">aws</text>
+  <text x="85" y="38" fill="#111111" font-size="26" font-weight="bold">AWS Cloud</text>
+
+  <!-- KMS icon -->
+  <g transform="translate(680,90)">
+    <rect x="0" y="0" width="140" height="140" fill="#c0392b"/>
+    <circle cx="55" cy="45" r="18" fill="none" stroke="#ffffff" stroke-width="4"/>
+    <circle cx="55" cy="45" r="6" fill="#ffffff"/>
+    <path d="M55,63 L55,95 L45,105 L55,115 L45,125" fill="none" stroke="#ffffff" stroke-width="4"/>
+    <rect x="75" y="70" width="45" height="30" fill="none" stroke="#ffffff" stroke-width="3"/>
+  </g>
+  <text x="850" y="150" font-size="24" fill="#111111" font-weight="bold">AWS KMS</text>
+
+  <line x1="750" y1="230" x2="750" y2="300" stroke="#555555" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Source bucket -->
+  <g transform="translate(110,290)">
+    <rect x="0" y="0" width="150" height="150" fill="#4a9c3f"/>
+    <ellipse cx="75" cy="48" rx="48" ry="14" fill="none" stroke="#ffffff" stroke-width="3"/>
+    <path d="M27,48 L27,98 Q27,112 75,112 Q123,112 123,98 L123,48" fill="none" stroke="#ffffff" stroke-width="3"/>
+  </g>
+  <text x="185" y="465" font-size="20" text-anchor="middle" fill="#111111">Source Bucket</text>
+
+  <!-- Target bucket -->
+  <g transform="translate(675,290)">
+    <rect x="0" y="0" width="150" height="150" fill="#4a9c3f"/>
+    <ellipse cx="75" cy="48" rx="48" ry="14" fill="none" stroke="#ffffff" stroke-width="3"/>
+    <path d="M27,48 L27,98 Q27,112 75,112 Q123,112 123,98 L123,48" fill="none" stroke="#ffffff" stroke-width="3"/>
+  </g>
+  <text x="750" y="465" font-size="20" text-anchor="middle" fill="#111111">Target Bucket</text>
+
+  <line x1="260" y1="365" x2="670" y2="365" stroke="#555555" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="465" y="350" font-size="18" font-style="italic" text-anchor="middle" fill="#111111">confidential_credentials.csv</text>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#555555"/>
+    </marker>
+  </defs>
+</svg>

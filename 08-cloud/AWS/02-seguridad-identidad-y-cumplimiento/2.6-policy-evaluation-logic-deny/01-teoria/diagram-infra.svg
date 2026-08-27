@@ -1,0 +1,62 @@
+<svg viewBox="0 0 1000 570" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <rect x="0" y="0" width="1000" height="570" fill="#e8eaf0"/>
+  <rect x="10" y="10" width="980" height="550" fill="none" stroke="#111111" stroke-width="2"/>
+  <rect x="10" y="10" width="60" height="40" fill="#111111"/>
+  <text x="40" y="35" fill="#ffffff" font-size="15" font-weight="bold" text-anchor="middle">aws</text>
+  <text x="85" y="38" fill="#111111" font-size="26" font-weight="bold">AWS Cloud</text>
+
+  <!-- Resource-based policy checklist -->
+  <g transform="translate(200,100)">
+    <rect x="0" y="0" width="110" height="140" rx="4" fill="none" stroke="#c0392b" stroke-width="4"/>
+    <text x="18" y="42" font-size="30" fill="#c0392b">&#10003;</text>
+    <text x="18" y="80" font-size="30" fill="#c0392b">&#10003;</text>
+    <text x="18" y="118" font-size="30" fill="#c0392b">&#10005;</text>
+  </g>
+  <text x="380" y="165" font-size="24" text-anchor="middle" fill="#111111">Resource-based policy</text>
+
+  <!-- Identity-based policy checklist -->
+  <g transform="translate(850,100)">
+    <rect x="0" y="0" width="110" height="140" rx="4" fill="none" stroke="#c0392b" stroke-width="4"/>
+    <text x="18" y="42" font-size="30" fill="#c0392b">&#10003;</text>
+    <text x="18" y="80" font-size="30" fill="#c0392b">&#10003;</text>
+    <text x="18" y="118" font-size="30" fill="#c0392b">&#10005;</text>
+  </g>
+  <text x="700" y="165" font-size="24" text-anchor="middle" fill="#111111">Identity-based policy</text>
+
+  <!-- vertical lines down -->
+  <line x1="255" y1="240" x2="255" y2="330" stroke="#555555" stroke-width="2"/>
+  <line x1="905" y1="240" x2="905" y2="330" stroke="#555555" stroke-width="2"/>
+
+  <!-- Bucket with object (left) -->
+  <g transform="translate(170,330)">
+    <rect x="0" y="0" width="170" height="170" fill="#4a9c3f"/>
+    <ellipse cx="85" cy="55" rx="55" ry="16" fill="none" stroke="#ffffff" stroke-width="3"/>
+    <path d="M30,55 L30,110 Q30,126 85,126 Q140,126 140,110 L140,55" fill="none" stroke="#ffffff" stroke-width="3"/>
+  </g>
+  <text x="255" y="530" font-size="22" text-anchor="middle" fill="#111111">Bucket with object</text>
+
+  <!-- IAM role hard hat (center) -->
+  <g transform="translate(430,340)">
+    <path d="M10,110 Q10,20 110,20 Q210,20 210,110 Z" fill="none" stroke="#c0392b" stroke-width="8"/>
+    <rect x="0" y="100" width="220" height="20" rx="8" fill="none" stroke="#c0392b" stroke-width="8"/>
+  </g>
+  <text x="540" y="530" font-size="22" text-anchor="middle" fill="#111111">IAM role</text>
+
+  <!-- Verification bucket (right) -->
+  <g transform="translate(750,330)">
+    <rect x="0" y="0" width="170" height="170" fill="#4a9c3f"/>
+    <ellipse cx="85" cy="55" rx="55" ry="16" fill="none" stroke="#ffffff" stroke-width="3"/>
+    <path d="M30,55 L30,110 Q30,126 85,126 Q140,126 140,110 L140,55" fill="none" stroke="#ffffff" stroke-width="3"/>
+  </g>
+  <text x="835" y="530" font-size="22" text-anchor="middle" fill="#111111">Verification bucket</text>
+
+  <!-- arrows from role to both buckets -->
+  <line x1="430" y1="410" x2="345" y2="410" stroke="#555555" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="645" y1="410" x2="745" y2="410" stroke="#555555" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#555555"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,78 @@
+<svg viewBox="0 0 1000 460" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <rect x="0" y="0" width="1000" height="460" fill="#ffffff"/>
+
+  <!-- User Account outer box -->
+  <rect x="10" y="10" width="980" height="440" fill="#e8eaf0" stroke="#111111" stroke-width="2"/>
+  <rect x="10" y="10" width="55" height="30" fill="#111111"/>
+  <text x="37" y="30" fill="#ffffff" font-size="13" font-weight="bold" text-anchor="middle">aws</text>
+  <text x="80" y="33" fill="#111111" font-size="20" font-weight="bold">User Account</text>
+
+  <!-- Permissions to allow assume box -->
+  <g transform="translate(455,60)">
+    <rect x="0" y="0" width="110" height="90" rx="4" fill="#dddddd" stroke="#999999" stroke-width="1"/>
+    <text x="20" y="35" font-size="24" fill="#2e8b2e">&#10003;</text>
+    <text x="20" y="60" font-size="24" fill="#2e8b2e">&#10003;</text>
+    <text x="20" y="85" font-size="24" fill="#c0392b">&#10005;</text>
+    <text x="55" y="115" font-size="15" text-anchor="middle" fill="#111111" font-weight="bold">Permissions to</text>
+    <text x="55" y="133" font-size="15" text-anchor="middle" fill="#111111" font-weight="bold">allow assume</text>
+  </g>
+
+  <!-- ReadOnly permissions box -->
+  <g transform="translate(795,60)">
+    <rect x="0" y="0" width="110" height="90" rx="4" fill="#dddddd" stroke="#999999" stroke-width="1"/>
+    <text x="20" y="35" font-size="24" fill="#2e8b2e">&#10003;</text>
+    <text x="20" y="60" font-size="24" fill="#2e8b2e">&#10003;</text>
+    <text x="20" y="85" font-size="24" fill="#c0392b">&#10005;</text>
+    <text x="55" y="115" font-size="15" text-anchor="middle" fill="#111111" font-weight="bold">ReadOnly</text>
+    <text x="55" y="133" font-size="15" text-anchor="middle" fill="#111111" font-weight="bold">permissions</text>
+  </g>
+
+  <!-- arrows down from permission boxes to hats -->
+  <line x1="510" y1="150" x2="510" y2="235" stroke="#111111" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="850" y1="150" x2="850" y2="235" stroke="#111111" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- IAM User icon -->
+  <g transform="translate(100,240)">
+    <circle cx="35" cy="20" r="18" fill="#b7b7b7"/>
+    <path d="M0,90 C0,58 14,42 35,42 C56,42 70,58 70,90 Z" fill="#b7b7b7"/>
+    <text x="35" y="115" font-size="15" text-anchor="middle" fill="#111111" font-weight="bold">IAM User</text>
+  </g>
+
+  <!-- Arrow: user -> assume_role (with key + Assume label) -->
+  <line x1="185" y1="280" x2="440" y2="280" stroke="#111111" stroke-width="2" marker-end="url(#arrow)"/>
+  <g transform="translate(275,250)">
+    <circle cx="10" cy="10" r="8" fill="none" stroke="#4a7c2f" stroke-width="4"/>
+    <rect x="17" y="7" width="16" height="6" fill="#4a7c2f"/>
+  </g>
+  <text x="300" y="270" font-size="14" fill="#111111" font-weight="bold" text-anchor="middle">Assume</text>
+
+  <!-- assume_role hat -->
+  <g transform="translate(455,235)">
+    <path d="M5,55 Q5,10 55,10 Q105,10 105,55 Z" fill="#4a7c2f"/>
+    <rect x="0" y="52" width="110" height="10" rx="4" fill="#3a6321"/>
+    <text x="55" y="90" font-size="14" text-anchor="middle" fill="#111111" font-weight="bold">AWS IAM</text>
+    <text x="55" y="108" font-size="14" text-anchor="middle" fill="#111111" font-weight="bold">assume_role role</text>
+  </g>
+
+  <!-- Arrow: assume_role -> readonly_role (with key + Assume label) -->
+  <line x1="580" y1="280" x2="780" y2="280" stroke="#111111" stroke-width="2" marker-end="url(#arrow)"/>
+  <g transform="translate(645,250)">
+    <circle cx="10" cy="10" r="8" fill="none" stroke="#4a7c2f" stroke-width="4"/>
+    <rect x="17" y="7" width="16" height="6" fill="#4a7c2f"/>
+  </g>
+  <text x="670" y="270" font-size="14" fill="#111111" font-weight="bold" text-anchor="middle">Assume</text>
+
+  <!-- readonly_role hat -->
+  <g transform="translate(795,235)">
+    <path d="M5,55 Q5,10 55,10 Q105,10 105,55 Z" fill="#4a7c2f"/>
+    <rect x="0" y="52" width="110" height="10" rx="4" fill="#3a6321"/>
+    <text x="55" y="90" font-size="14" text-anchor="middle" fill="#111111" font-weight="bold">AWS IAM</text>
+    <text x="55" y="108" font-size="14" text-anchor="middle" fill="#111111" font-weight="bold">readonly_role role</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#111111"/>
+    </marker>
+  </defs>
+</svg>
