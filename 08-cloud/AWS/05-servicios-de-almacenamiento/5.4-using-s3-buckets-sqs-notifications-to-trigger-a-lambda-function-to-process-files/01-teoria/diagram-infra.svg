@@ -1,0 +1,65 @@
+<svg viewBox="0 0 1140 480" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <rect x="0" y="0" width="1140" height="480" fill="#ffffff"/>
+
+  <!-- User -->
+  <g transform="translate(60,260)">
+    <circle cx="30" cy="20" r="15" fill="none" stroke="#111111" stroke-width="2"/>
+    <line x1="30" y1="35" x2="30" y2="80" stroke="#111111" stroke-width="2"/>
+    <line x1="10" y1="55" x2="50" y2="55" stroke="#111111" stroke-width="2"/>
+    <line x1="30" y1="80" x2="10" y2="115" stroke="#111111" stroke-width="2"/>
+    <line x1="30" y1="80" x2="50" y2="115" stroke="#111111" stroke-width="2"/>
+  </g>
+  <text x="100" y="240" font-size="13" font-style="italic" text-anchor="middle" fill="#111111">User uploads file</text>
+  <text x="100" y="255" font-size="13" font-style="italic" text-anchor="middle" fill="#111111">to /input folder</text>
+
+  <line x1="130" y1="290" x2="400" y2="290" stroke="#111111" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- AWS Cloud boundary -->
+  <rect x="400" y="80" width="700" height="400" fill="none" stroke="#111111" stroke-width="2"/>
+  <g transform="translate(410,90)"><rect x="0" y="0" width="55" height="30" fill="#111111"/><text x="27" y="20" font-size="12" text-anchor="middle" fill="#ffffff" font-weight="bold">aws</text></g>
+  <text x="480" y="112" font-size="18" font-weight="bold" fill="#111111">AWS Cloud</text>
+
+  <!-- S3 bucket -->
+  <g transform="translate(440,240)">
+    <rect x="0" y="0" width="90" height="90" fill="#4a9c3f"/>
+    <ellipse cx="45" cy="28" rx="28" ry="9" fill="none" stroke="#ffffff" stroke-width="2"/>
+    <path d="M17,28 L17,65 Q17,76 45,76 Q73,76 73,65 L73,28" fill="none" stroke="#ffffff" stroke-width="2"/>
+  </g>
+  <text x="485" y="350" font-size="13" text-anchor="middle" fill="#111111">S3 bucket</text>
+
+  <line x1="530" y1="285" x2="640" y2="285" stroke="#111111" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="585" y="270" font-size="11" text-anchor="middle" fill="#111111">Event notification</text>
+
+  <!-- SQS -->
+  <g transform="translate(650,240)">
+    <rect x="0" y="0" width="90" height="90" fill="#c2185b"/>
+    <circle cx="45" cy="45" r="20" fill="none" stroke="#ffffff" stroke-width="2"/>
+    <circle cx="45" cy="45" r="5" fill="#ffffff"/>
+    <line x1="45" y1="25" x2="45" y2="65" stroke="#ffffff" stroke-width="2"/>
+    <line x1="25" y1="45" x2="65" y2="45" stroke="#ffffff" stroke-width="2"/>
+  </g>
+  <text x="695" y="350" font-size="13" text-anchor="middle" fill="#111111">SQS Notification</text>
+
+  <line x1="740" y1="285" x2="850" y2="285" stroke="#111111" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="795" y="265" font-size="11" text-anchor="middle" fill="#111111">Trigger lambda</text>
+  <text x="795" y="278" font-size="11" text-anchor="middle" fill="#111111">handler</text>
+
+  <!-- Lambda -->
+  <g transform="translate(860,240)">
+    <rect x="0" y="0" width="90" height="90" fill="#e8871e"/>
+    <polygon points="25,70 40,25 52,25 38,50 58,50 33,70" fill="#ffffff"/>
+  </g>
+  <text x="905" y="350" font-size="13" text-anchor="middle" fill="#111111">Lambda trigger</text>
+
+  <!-- store back to S3 -->
+  <line x1="905" y1="330" x2="905" y2="400" stroke="#111111" stroke-width="2"/>
+  <line x1="905" y1="400" x2="485" y2="400" stroke="#111111" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="695" y="420" font-size="12" text-anchor="middle" fill="#111111">Store processed file to /output folder</text>
+  <line x1="485" y1="400" x2="485" y2="335" stroke="#111111" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#111111"/>
+    </marker>
+  </defs>
+</svg>
