@@ -1,0 +1,45 @@
+<svg viewBox="0 0 700 500" xmlns="http://www.w3.org/2000/svg" font-family="Arial, Helvetica, sans-serif">
+  <rect x="0" y="0" width="700" height="500" fill="#ffffff"/>
+  <rect x="10" y="10" width="680" height="480" fill="none" stroke="#111111" stroke-width="2"/>
+
+  <!-- User -->
+  <g transform="translate(30,190)">
+    <circle cx="30" cy="20" r="15" fill="none" stroke="#111111" stroke-width="2"/>
+    <line x1="30" y1="35" x2="30" y2="80" stroke="#111111" stroke-width="2"/>
+    <line x1="10" y1="55" x2="50" y2="55" stroke="#111111" stroke-width="2"/>
+    <line x1="30" y1="80" x2="10" y2="115" stroke="#111111" stroke-width="2"/>
+    <line x1="30" y1="80" x2="50" y2="115" stroke="#111111" stroke-width="2"/>
+  </g>
+  <text x="60" y="230" font-size="14" text-anchor="middle" fill="#111111">User</text>
+
+  <line x1="90" y1="205" x2="180" y2="130" stroke="#111111" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="90" y1="205" x2="180" y2="330" stroke="#111111" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="60" y="195" font-size="12" fill="#111111">Session manager</text>
+
+  <!-- VPC boundary -->
+  <rect x="180" y="40" width="440" height="420" rx="10" fill="none" stroke="#111111" stroke-width="2"/>
+  <g transform="translate(195,50)"><ellipse cx="25" cy="14" rx="25" ry="14" fill="#e8871e"/><text x="25" y="19" font-size="9" text-anchor="middle" fill="#ffffff">VPC</text></g>
+
+  <!-- Private subnet -->
+  <rect x="220" y="90" width="360" height="140" rx="10" fill="none" stroke="#333333" stroke-width="2"/>
+  <text x="240" y="235" font-size="13" fill="#111111">Private Subnet</text>
+  <text x="530" y="105" font-size="16">&#128274;</text>
+  <g transform="translate(370,110)">
+    <rect x="0" y="0" width="70" height="70" rx="6" fill="#e8871e"/>
+    <text x="35" y="90" font-size="12" text-anchor="middle" fill="#111111">private host</text>
+  </g>
+
+  <!-- Public subnet -->
+  <rect x="220" y="280" width="360" height="140" rx="10" fill="none" stroke="#333333" stroke-width="2"/>
+  <text x="240" y="405" font-size="13" fill="#111111">Public Subnet</text>
+  <g transform="translate(370,300)">
+    <rect x="0" y="0" width="70" height="70" rx="6" fill="#e8871e"/>
+    <text x="35" y="90" font-size="12" text-anchor="middle" fill="#111111">public host</text>
+  </g>
+
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#111111"/>
+    </marker>
+  </defs>
+</svg>
