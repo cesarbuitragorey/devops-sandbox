@@ -2,7 +2,83 @@
 
 ## Enunciado de la tarea
 
-> Crear, con Terraform, una VPC (`cmtr-iacp1ebx-01-vpc`, CIDR `10.10.0.0/16`), 3 subnets públicos en `eu-west-1a/b/c`, un Internet Gateway y una route table que dirija el tráfico `0.0.0.0/0` hacia el IGW. Sin backend remoto, sin `local-exec`, sin `prevent_destroy`. Verificación vía repo Git (la plataforma clona el repo y corre el flujo de Terraform).
+### Task 1. AWS IaC with Terraform: Creating Network Resources
+
+#### The Goal of the Task
+
+To create a foundational network stack for virtual infrastructure in AWS using Terraform. This involves setting up a customized Virtual Private Cloud (VPC), an internet gateway, public subnets across multiple availability zones, and a routing table to manage traffic flow.
+
+#### Common Task Requirements
+
+- Do not define a backend in your Terraform configuration. Terraform will use the local backend by default.
+- Do not use the `local-exec` provisioner.
+- Do not use the `prevent_destroy` lifecycle attribute.
+- Use `versions.tf` to define the required Terraform and provider versions.
+- Set Terraform `required_version` to `>= 1.5.7`.
+- Define all variables only in `variables.tf`, and make sure each variable has a valid description and type.
+- Resource names provided in tasks should be defined via variables or generated dynamically/concatenated (e.g., in `locals` using Terraform functions). Avoid hardcoding resource names in resource definitions or using the `default` property for variables.
+- Put all non-sensitive input values into `terraform.tfvars`.
+- Define outputs only in `outputs.tf`, and make sure each output has a valid description.
+- Keep your Terraform code clean and properly formatted. Use the `terraform fmt` command to format your code according to the standard style conventions.
+
+#### Check Results
+
+Once you complete the task, enter your repository HTTPS URL with a Personal Access Token in the Repository HTTPS URL with embedded token field. If needed, provide any additional input parameters, then click the `Verification` button. During verification, the platform will automatically evaluate your solution and display the final result. A score of 100% means all checks passed successfully. If any checks fail, feedback will be shown so you can review and improve your solution.
+
+Note: All previously created infrastructure will be redeployed from scratch during each new verification. This process may take time, so please be patient.
+
+After starting the task, you will have 2.5 hours to complete verification. If verification is not completed within this time frame, all existing infrastructure will be destroyed, and you will need to restart the task.
+
+#### Task Resources
+
+All region-specific resources are created in the `eu-west-1` region.
+
+- AWS VPC: a logically isolated network in AWS cloud that provides control over your virtual networking environment.
+- Public subnets: subnets that provide internet access through an Internet Gateway within the VPC.
+- Internet Gateway: a high-availability, fully managed, horizontal scaling gateway that provides internet access for resources in public subnets.
+- Route table: a set of routing rules that controls traffic inside the VPC and to the internet for resources in public subnets.
+- Local files:
+  - `main.tf`: defines the AWS provider configuration
+  - `variables.tf`: defines input variables used in the Terraform configuration
+  - `vpc.tf`: defines the VPC, public subnets, Internet Gateway, and route table
+  - `versions.tf`: defines the required Terraform and provider versions
+  - `outputs.tf`: defines output values
+  - `terraform.tfvars`: stores non-sensitive variable values
+
+#### Objectives
+
+1. Create the following files: `main.tf`, `variables.tf`, `vpc.tf`, `versions.tf`, `outputs.tf`, and `terraform.tfvars`.
+2. In `main.tf`, define the AWS provider. Do not configure a backend. Terraform will use the local backend by default.
+3. In `versions.tf`, define the required Terraform and provider versions.
+4. In `variables.tf`, define the variables that will be used in `vpc.tf`.
+5. In `vpc.tf`, create a VPC named `cmtr-iacp1ebx-01-vpc` with the CIDR block `10.10.0.0/16`.
+6. In `vpc.tf`, create three public subnets in different Availability Zones:
+   - `cmtr-iacp1ebx-01-subnet-public-a` in `eu-west-1a` with CIDR block `10.10.1.0/24`
+   - `cmtr-iacp1ebx-01-subnet-public-b` in `eu-west-1b` with CIDR block `10.10.3.0/24`
+   - `cmtr-iacp1ebx-01-subnet-public-c` in `eu-west-1c` with CIDR block `10.10.5.0/24`
+7. Create an Internet Gateway named `cmtr-iacp1ebx-01-igw` and attach it to the VPC.
+8. Create a route table named `cmtr-iacp1ebx-01-rt` and associate it with all public subnets so outbound internet traffic can pass through the Internet Gateway.
+9. Put all non-sensitive input values into `terraform.tfvars`.
+10. Run the Terraform workflow commands:
+    - `terraform init` to initialize the working directory and initialize the local backend
+    - `terraform fmt` to format your code
+    - `terraform validate` to ensure configurations are correct
+    - `terraform plan` to preview infrastructure changes
+    - `terraform apply` to apply the changes
+11. Verify that all created resources are connected correctly.
+
+#### Verification
+
+1. Confirm that all required files exist: `main.tf`, `variables.tf`, `vpc.tf`, `versions.tf`, `outputs.tf`, and `terraform.tfvars`.
+2. In the AWS Console, open VPC and verify that the following resources were created correctly: `VPC`, `public subnets`, `Internet Gateway`, `route table`.
+3. Verify that each subnet is associated with the correct route table.
+4. Verify that the route table contains a route that sends internet-bound traffic through the Internet Gateway.
+
+Note: Before running task verification:
+- Push or update your Terraform configuration in your Git repository.
+- Delete the AWS resources you created during the task by running `terraform destroy`.
+
+To pass verification, your repository must contain the final Terraform code, but the deployed resources must already be removed.
 
 **Región:** `eu-west-1` — Cuenta `148761676904`
 
