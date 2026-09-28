@@ -22,3 +22,8 @@ variable "instance_type" {
   description = "EC2 instance type to launch."
   type        = string
 }
+
+variable "ami_ssm_parameter_name" {
+  description = "SSM Parameter Store path that resolves to the latest AMI ID to use for the EC2 instance."
+  type        = string
+}
