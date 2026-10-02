@@ -132,20 +132,42 @@ terraform apply -auto-approve
 
 `apply` creó 1 recurso sin errores (`aws_instance.this`), leyendo `subnet_id` y `vpc_security_group_ids` desde `data.terraform_remote_state.base_infra.outputs` — sin ningún ID de VPC/subnet/SG hardcodeado en el código.
 
-## Movimiento 2 — Limpieza y push
+## Movimiento 2 — Limpieza
 
 ```bash
 terraform destroy -auto-approve
 ```
 
-Código comiteado y subido a `devops-sandbox` **antes** de correr la verificación en la plataforma.
+## Movimiento 3 — Primeros dos intentos de verificación fallidos por olvido de push
 
-## Movimiento 3 — Verificación en la plataforma
+Se corrió la verificación en la plataforma dos veces seguidas con el mismo resultado ("Remote state data source is missing", "Required file variables.tf is missing") antes de haber comiteado y subido el código de esta task al repo — el `Repository folder` ya estaba bien puesto, pero el checker clonaba un repo que simplemente no tenía esos archivos todavía. `git status` confirmó que la carpeta `1.7-...` seguía sin trackear. Se corrigió con:
+
+```bash
+git add "05-terraform/1.7-aws-iac-with-terraform-configure-a-remote-data-source/"
+git commit -m "Add Terraform code for task 1.7 (remote state data source)"
+git push
+```
+
+## Movimiento 4 — Tercer intento: hardcoded value en la ruta del parámetro SSM
+
+Con el código ya en el repo, la verificación avanzó mucho más (remote state reconocido, archivos encontrados), pero falló el check de "ausencia de hardcoded resources": el checker marcó como hardcodeada la ruta literal del parámetro SSM del AMI (`/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64`) usada en `compute.tf`. Se movió a una nueva variable `ami_ssm_parameter_name` (declarada en `variables.tf`, valor en `terraform.tfvars`), consistente con el resto de la configuración no sensible:
+
+```bash
+terraform fmt
+terraform validate
+terraform plan
+```
+
+Confirmado el plan limpio, se comiteó y subió el fix.
+
+## Movimiento 5 — Verificación exitosa
 
 - **Repository branch:** `main`
 - **Repository folder:** `05-terraform/1.7-aws-iac-with-terraform-configure-a-remote-data-source/02-practica`
 - **Repository HTTPS URL:** con PAT embebido.
 
-## Movimiento 4 — Limpieza final
+15/15 checks pasados — ver [03-resultados](../03-resultados/README.md).
+
+## Movimiento 6 — Limpieza final
 
 Se usó el botón **"Destroy Resources"** de la plataforma.
