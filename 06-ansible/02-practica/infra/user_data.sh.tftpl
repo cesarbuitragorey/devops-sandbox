@@ -1,0 +1,24 @@
+#!/bin/bash
+set -eux
+
+hostnamectl set-hostname ${fqdn}
+
+cat > /etc/hosts <<EOF
+127.0.0.1 localhost
+%{ for name, m in machines ~}
+${m.ip} ${m.fqdn} ${name}
+%{ endfor ~}
+EOF
+%{ if is_control ~}
+
+install -d -m 700 -o ${ssh_user} -g ${ssh_user} /home/${ssh_user}/.ssh
+cat > /home/${ssh_user}/.ssh/config <<EOF
+Host node*
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  User ${ssh_user}
+  IdentityFile ~/.ssh/${private_key_file_name}
+EOF
+chown ${ssh_user}:${ssh_user} /home/${ssh_user}/.ssh/config
+chmod 600 /home/${ssh_user}/.ssh/config
+%{ endif ~}
