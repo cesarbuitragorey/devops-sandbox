@@ -1,6 +1,6 @@
 # Teoría — Ansible L3: funciones avanzadas
 
-← [L2: control de tareas y roles](L2-tasks-control-and-roles.md)
+← [L2: control de tareas y roles](L2-tasks-control-and-roles.md) · Siguiente → [L4: gestión de secretos y de la nube](L4-secret-and-cloud-management.md)
 
 > Nota: el material original incluye elementos interactivos (pestañas, desplegables, tarjetas, pasos interactivos, videos). Aquí se transcribe el texto disponible; lo que no llegó en la copia está indicado donde corresponde. Los errores evidentes del original se corrigen con una nota breve.
 
