@@ -1,6 +1,6 @@
 # Teoría — Ansible L4: gestión de secretos y de la nube
 
-← [L3: funciones avanzadas](L3-advanced-features.md)
+← [L3: funciones avanzadas](L3-advanced-features.md) · Siguiente → [L5: buenas prácticas](L5-best-practices.md)
 
 > Nota: el material original incluye elementos interactivos (pasos, puntos, pestañas, desplegables). Aquí se transcribe el texto disponible; lo que no llegó en la copia está indicado donde corresponde. Los errores evidentes del original se corrigen con una nota breve.
 
