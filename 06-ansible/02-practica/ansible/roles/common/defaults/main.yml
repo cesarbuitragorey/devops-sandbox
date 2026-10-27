@@ -1,0 +1,14 @@
+---
+# Nothing is installed or changed unless the playbook switches these on.
+common_install_packages: false
+common_disable_selinux: false
+
+common_packages:
+  - curl
+  - lsof
+  - mc
+  - nano
+  - tar
+  - unzip
+  - vim
+  - zip

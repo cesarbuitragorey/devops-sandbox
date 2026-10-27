@@ -1,0 +1,21 @@
+---
+- name: Stop and disable the collectd service
+  ansible.builtin.service:
+    name: "{{ collectd_service_name }}"
+    state: stopped
+    enabled: false
+  register: collectd_service_result
+  failed_when:
+    - collectd_service_result is failed
+    - "'Could not find the requested service' not in (collectd_service_result.msg | default(''))"
+
+- name: Remove collectd and its plugins
+  ansible.builtin.package:
+    name: "{{ collectd_packages }}"
+    state: absent
+
+- name: Remove the collectd configuration files
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop: "{{ collectd_config_paths_to_remove }}"

@@ -1,0 +1,12 @@
+---
+- name: Enable the EPEL repository (collectd is published there)
+  ansible.builtin.package:
+    name: epel-release
+    state: present
+  when: ansible_facts['os_family'] == 'RedHat'
+
+- name: Install the latest collectd and its Write Prometheus plugin
+  ansible.builtin.package:
+    name: "{{ collectd_packages }}"
+    state: latest
+  notify: Restart collectd

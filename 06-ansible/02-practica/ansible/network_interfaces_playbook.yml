@@ -1,0 +1,9 @@
+---
+- name: Print the network interfaces of every virtual machine
+  hosts: all
+  gather_facts: true
+
+  tasks:
+    - name: Print the list of network interfaces
+      ansible.builtin.debug:
+        msg: "{{ inventory_hostname }} interfaces: {{ ansible_facts['interfaces'] }}"

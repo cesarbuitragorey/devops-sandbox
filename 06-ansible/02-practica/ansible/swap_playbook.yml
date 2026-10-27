@@ -1,0 +1,40 @@
+---
+# Preparation step: the 1 GiB nodes have no swap and the dnf module is killed
+# by the OOM killer (rc=137) while loading the EPEL metadata.
+- name: Add a swap file to the managed nodes
+  hosts: managed_nodes
+  become: true
+
+  vars:
+    swap_file: /swapfile
+    swap_size_mb: 1024
+
+  tasks:
+    - name: Create the swap file
+      ansible.builtin.command:
+        cmd: "dd if=/dev/zero of={{ swap_file }} bs=1M count={{ swap_size_mb }}"
+        creates: "{{ swap_file }}"
+      register: swap_created
+
+    - name: Restrict the swap file permissions
+      ansible.builtin.file:
+        path: "{{ swap_file }}"
+        owner: root
+        group: root
+        mode: "0600"
+
+    - name: Format the swap file
+      ansible.builtin.command: "mkswap {{ swap_file }}"
+      when: swap_created is changed
+
+    - name: Enable the swap file
+      ansible.builtin.command: "swapon {{ swap_file }}"
+      when: swap_created is changed
+
+    - name: Make the swap file persistent
+      ansible.posix.mount:
+        path: none
+        src: "{{ swap_file }}"
+        fstype: swap
+        opts: sw
+        state: present

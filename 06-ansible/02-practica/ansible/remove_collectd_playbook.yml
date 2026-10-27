@@ -1,0 +1,9 @@
+---
+- name: Remove collectd, its plugins and its configuration
+  hosts: managed_nodes
+  become: true
+
+  roles:
+    - role: collectd
+      vars:
+        collectd_state: remove

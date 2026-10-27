@@ -1,0 +1,8 @@
+---
+- name: Install the list of required packages
+  ansible.builtin.include_tasks: install_packages.yml
+  when: common_install_packages | bool
+
+- name: Disable SELinux
+  ansible.builtin.include_tasks: selinux.yml
+  when: common_disable_selinux | bool

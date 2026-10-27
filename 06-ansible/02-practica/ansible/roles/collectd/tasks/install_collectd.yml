@@ -1,0 +1,21 @@
+---
+- name: Create the collectd configuration directory
+  ansible.builtin.file:
+    path: "{{ collectd_config_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Enable the Write Prometheus plugin
+  ansible.builtin.template:
+    src: prometheus.conf.j2
+    dest: "{{ collectd_prometheus_config }}"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart collectd
+
+- name: Ensure the collectd service is enabled and started
+  ansible.builtin.service:
+    name: "{{ collectd_service_name }}"
+    state: started
+    enabled: true

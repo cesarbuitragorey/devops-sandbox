@@ -18,7 +18,7 @@ ssh_user         = "ec2-user"
 public_key_path       = "~/.ssh/ansible_lab.pub"
 private_key_file_name = "ansible_lab"
 
-allowed_ssh_cidr = "190.255.115.133/32"
+allowed_ssh_cidr = "190.255.125.204/32"
 collectd_port    = 9103
 
 tags = {

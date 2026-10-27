@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+LoadPlugin write_prometheus
+{% for module in collectd_modules %}
+LoadPlugin {{ module }}
+{% endfor %}
+
+<Plugin write_prometheus>
+   Port {{ collectd_port }}
+</Plugin>

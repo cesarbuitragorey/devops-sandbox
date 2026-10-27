@@ -1,0 +1,10 @@
+---
+- name: Apply the common role to all managed nodes
+  hosts: managed_nodes
+  become: true
+
+  roles:
+    - role: common
+      vars:
+        common_install_packages: true
+        common_disable_selinux: true

@@ -1,0 +1,6 @@
+---
+# Runs only on nodes where the selinux task reported a change, so a node
+# that already has SELinux disabled is not rebooted.
+- name: Reboot node
+  ansible.builtin.reboot:
+    reboot_timeout: 600

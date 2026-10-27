@@ -1,0 +1,27 @@
+---
+# collectd_state selects the role behavior: install (default) or remove.
+collectd_state: install
+
+collectd_packages:
+  - collectd
+  - collectd-write_prometheus
+
+collectd_service_name: collectd
+collectd_port: 9103
+collectd_config_dir: /etc/collectd.d
+collectd_prometheus_config: "{{ collectd_config_dir }}/prometheus.conf"
+
+collectd_modules:
+  - df
+  - processes
+  - protocols
+  - swap
+  - tcpconns
+  - uptime
+  - users
+  - vmem
+
+collectd_config_paths_to_remove:
+  - "{{ collectd_prometheus_config }}"
+  - "{{ collectd_config_dir }}"
+  - /etc/collectd.conf

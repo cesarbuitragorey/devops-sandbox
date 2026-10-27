@@ -1,0 +1,11 @@
+---
+- name: Install the SELinux Python bindings required by the selinux module
+  ansible.builtin.package:
+    name: python3-libselinux
+    state: present
+  when: ansible_facts['os_family'] == 'RedHat'
+
+- name: Disable SELinux
+  ansible.posix.selinux:
+    state: disabled
+  notify: Reboot node
